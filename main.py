@@ -1,53 +1,52 @@
-import field as fil
+import field as f
 
 
 # now, to clear the screen
 
 
-shots = {"username":fil.Field(),"enemy":fil.Field()}
-shots["username"] = fil.Field()
-shots["enemy"] = fil.Field()
+shots = {"username":f.Field(),"enemy":f.Field()}
+shots["username"] = f.Field()
+shots["enemy"] = f.Field()
 
-fields = {"username":fil.Field(),"enemy":fil.Field()}
-fields["username"] = fil.Field()
-fields["enemy"] = fil.Field()
+fields = {"username":f.Field(),"enemy":f.Field()}
+fields["username"] = f.Field()
+fields["enemy"] = f.Field()
 
 turn = {"username":False,"enemy":False}
 
-def HitEnemyShips():
+def Game():
     username = "username"
     RandomFieldFilling(username)
     enemy = "enemy"
     RandomFieldFilling(enemy)
-    WinWrapper = False
-    while not WinWrapper:
+    stillPlaying = True
+    fields[username].prints()
+    fields[enemy].prints()
+    while stillPlaying==True:
         if turn[enemy] == True:
             print("Игрок 2")
             print("Выберите точку удара: ")
             shots[enemy].prints()
-            msg = input().split(",")
+            msg = input().split(" ")
             shots[enemy].IndicateCell(int(msg[0]), int(msg[1]))
-            strickenShips = fields[username].GetStrickenShips(msg, username)
-            print("Ваши корабли \n")
-            fields[enemy].prints()
-            print("Корабли соперника \n")
+            strickenShips = fields[username].GetStrickenShips(msg, shots[enemy])
+            #print("Ваше поле")
+            #fields[enemy].prints()
+            print("Поле соперника")
             shots[enemy].prints()
             if strickenShips.Hitted != "":
-                qua = fields[enemy].GetAvailableShips()
-                turn[enemy] = False
-                if qua == fil.Ships(4, 3, 2, 1):
-                    print("Победил 2 игрок")
-                    WinWrapper = True
-                    continue
-                print("Попал")
+                destroyedShips = fields[username].GetAvailableShips()
+                turn[username] = False
                 turn[enemy] = True
+                if destroyedShips == f.Ships(4, 3, 2, 1):
+                    print("Победил 2-й игрок")
+                    stillPlaying = False
+                    continue
             else:
-                print("Промазал")
                 turn[username] = True
                 turn[enemy] = False
-            print("Конец хода, введите любой символ для продолжения")
-            input()
-            print(100*'\n')
+                print("Промазал")
+            print()
 		# Записали попадание в shots, после получили структуру
 		# сбитых и прилежащих к сбитым ячеек, отправили ее для рендера
 		# у себя, изменили ее для последующего рендера у 2-ого игрока
@@ -56,36 +55,33 @@ def HitEnemyShips():
             print("Игрок 1")
             print("Выберите точку удара: ")
             shots[username].prints()
-            msg = input().split(",")
+            msg = input().split(" ")
             shots[username].IndicateCell(int(msg[0]), int(msg[1]))
-            strickenShips = fields[enemy].GetStrickenShips(msg, username)
-            print("Ваши корабли \n")
-            fields[username].prints()
-            print("Корабли соперника \n")
+            strickenShips = fields[enemy].GetStrickenShips(msg, shots[username])
+            #print("Ваше поле")
+            #fields[username].prints()
+            print("Поле соперника")
             shots[username].prints()
             if strickenShips.Hitted != "":
-                qua = fields[enemy].GetAvailableShips()
+                destroyedShips = fields[enemy].GetAvailableShips()
                 turn[enemy] = False
-                if qua == fil.Ships(4, 3, 2, 1):
-                    print("Победил 1 игрок")
-                    WinWrapper = True
-                    continue
-                print("Попал")
                 turn[username] = True
+                if destroyedShips == f.Ships(4, 3, 2, 1):
+                    print("Победил 1-й игрок")
+                    stillPlaying = False
+                    continue
             else:
-                print("Промазал")
                 turn[enemy] = True
                 turn[username] = False
-            print("Конец хода, введите любой символ для продолжения")
-            input()
-            print(100*'\n')
+                print("Промазал")
+            print()
         
-def RandomFieldFilling(username):
-    fields[username] = fil.Field()
-    randomField = fil.GetRandomField(fil.Field())
+def RandomFieldFilling(name):
+    fields[name] = f.Field()
+    randomField = f.GetShipPlacement(fields[name])
     for i in range(1,11):
         for j in range(1,11):
-             if randomField.f[i][j] == True:
-                 fields[username].IndicateCell((i-1), (j-1))
+            if randomField.f[i][j] == True:
+                fields[name].IndicateCell((i-1), (j-1))
                  
-HitEnemyShips()
+Game()
