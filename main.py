@@ -46,7 +46,9 @@ def Game():
     enemy = "enemy"
     RandomFieldFilling(enemy)
     stillPlaying = True
+    print("Поле игрока")
     fields[username].prints()
+    print("Поле соперника")
     fields[enemy].prints()
     
     # Записали попадание в shots, после получили структуру
