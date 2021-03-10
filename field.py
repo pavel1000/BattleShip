@@ -17,15 +17,24 @@ class Ships:
     
     def shrink (self, length):
         if length == 1:
-            self.SingleDecker -= 1
+            self.SingleDecker += 1
         elif length == 2:
-            self.TwoDecker -= 1
+            self.TwoDecker += 1
         elif length == 3:
-            self.ThreeDecker -= 1
+            self.ThreeDecker += 1
         elif length == 4:
-            self.FourDecker -= 1
-        
-        
+            self.FourDecker += 1
+    
+    def __str__(self):
+        return ('('+str(self.SingleDecker)+', '+str(self.TwoDecker)+', '+\
+              str(self.ThreeDecker)+', '+str(self.FourDecker)+')')
+              
+    def __eq__(self, other):
+        if self.SingleDecker==other.SingleDecker and self.TwoDecker==other.TwoDecker\
+            and self.ThreeDecker==other.ThreeDecker and self.FourDecker==other.FourDecker:
+            return True
+        else:
+            return False
         
 class Field:
     def __init__(self):
@@ -40,30 +49,38 @@ class Field:
         if self.f[row][col] == False:
             self.f[row][col] = True
             
-    def GetAvailableShips (self):
-        ships = Ships(4, 3, 2, 1)
+    def GetAvailableShips (self, shots):
+        ships = Ships(0,0,0,0)
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
             
         shipLength = 0
         
         for i in range(1,fieldSize-1):
             for j in range (1,fieldSize):
-                if self.f[i][j] == True:
-                    if self.f[i][j-1] == True or self.f[i][j+1] == True:
-                        shipLength +=1
-                        seenCells[i][j] = True
-                elif shipLength != 0:
+                if self.f[i][j] == True and self.f[i-1][j] == False and self.f[i+1][j] == False:
+                    seenCells[i][j] = True
+                    if self.f[i][j-1] == True:
+                        shipLength+=1
+                    else:
+                        shipLength=1
+                elif shipLength != 0 and self.isDestroyed(i-1, j-2, shots):
                     ships.shrink(shipLength)
                     shipLength = 0
-        
+                else:
+                    shipLength = 0
         for j in range(1,fieldSize-1):
             for i in range(1,fieldSize):
                 if seenCells[i][j] == True:
                     continue
                 if self.f[i][j] == True:
-                    shipLength +=1
-                elif shipLength != 0:
+                    if self.f[i-1][j] == True:
+                        shipLength+=1
+                    else:
+                        shipLength=1
+                elif shipLength != 0 and self.isDestroyed(i-2, j-1, shots):
                     ships.shrink(shipLength)
+                    shipLength = 0
+                else:
                     shipLength = 0
         return ships
     
@@ -121,10 +138,12 @@ class Field:
             Stricken.Hitted = msg
             Stricken.Ambient = msg
             return Stricken
-        row = int(msg[0])+1
-        col = int(msg[1])+1
+        row = int(msg[0])
+        col = int(msg[1])
         direction, k, l = self.GetOrientation(row, col)
         Stricken = StrickenShips()
+        row+=1
+        col+=1
         if direction == True:
             #отмечаем поля вокруг "убитого" корабля на бэкэнде?
             for i in range(row-k-1,row+l+2):
@@ -192,7 +211,7 @@ class Field:
                 if self.f[i][j] == True:
                     sys.stdout.write("X ")
                 else:
-                    sys.stdout.write("O ")
+                    sys.stdout.write("* ")
             print()
         sys.stdout.write("----------------------\n")
     

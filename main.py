@@ -26,11 +26,12 @@ def playerTurn(username, enemy):
     print("Поле соперника")
     shots[username].prints()
     if strickenShips.Hitted != "":
-        destroyedShips = fields[enemy].GetAvailableShips()
+        destroyedShips = fields[enemy].GetAvailableShips(shots[username])
+        print(destroyedShips)
         turn[enemy] = False
         turn[username] = True
-        if destroyedShips == f.Ships(4, 3, 2, 1):
-            print("Победил 1-й игрок")
+        if destroyedShips == f.Ships(4,3,2,1):
+            print("Победил "+username)
             #stillPlaying = False
             return False
     else:
