@@ -34,8 +34,8 @@ class Field:
             
     #f is a game field
     def IndicateCell (self, y, x):
-        row = int(y)+1
-        col = int(x)+1
+        row = int(y) + 1
+        col = int(x) + 1
         
         if self.f[row][col] == False:
             self.f[row][col] = True
@@ -93,7 +93,8 @@ class Field:
         row = int(y)+1
         col = int(x)+1
         direction, k, l = self.GetOrientation(row-1, col-1)
-        
+        if self.f[row][col] == False:
+            return False
         if direction == True:
             for i in range(row-k, row+l+1, 1):
                 if f.f[i][col] == False:
@@ -117,10 +118,11 @@ class Field:
             return Stricken
         if self.isHitted(int(msg[0]), int(msg[1]))==True:
             print("Попал")
+            Stricken.Hitted = msg
             Stricken.Ambient = msg
             return Stricken
-        row = int(msg[0])
-        col = int(msg[1])
+        row = int(msg[0])+1
+        col = int(msg[1])+1
         direction, k, l = self.GetOrientation(row, col)
         Stricken = StrickenShips()
         if direction == True:

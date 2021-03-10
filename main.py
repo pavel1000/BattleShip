@@ -20,7 +20,9 @@ def Game():
     enemy = "enemy"
     RandomFieldFilling(enemy)
     stillPlaying = True
+    print("Поле игрока")
     fields[username].prints()
+    print("Поле соперника")
     fields[enemy].prints()
     while stillPlaying==True:
         if turn[enemy] == True:
