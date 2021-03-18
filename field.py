@@ -3,19 +3,22 @@ import sys
 
 # Deliberately increased fieldSize for more convenient checking the field
 fieldSize = 12
+
+
 class StrickenShips:
     def __init__(self):
         self.Ambient = []
         self.Hitted = ""
         
+
 class Ships:
-    def __init__(self,SingleDecker,TwoDecker,ThreeDecker,FourDecker):
+    def __init__(self, SingleDecker, TwoDecker, ThreeDecker, FourDecker):
         self.SingleDecker = SingleDecker
         self.TwoDecker = TwoDecker
         self.ThreeDecker = ThreeDecker
         self.FourDecker = FourDecker
     
-    def shrink (self, length):
+    def shrink(self, length):
         if length == 1:
             self.SingleDecker += 1
         elif length == 2:
@@ -26,57 +29,58 @@ class Ships:
             self.FourDecker += 1
     
     def __str__(self):
-        return ('('+str(self.SingleDecker)+', '+str(self.TwoDecker)+', '+\
-              str(self.ThreeDecker)+', '+str(self.FourDecker)+')')
+        return ('('+str(self.SingleDecker)+', '+str(self.TwoDecker)+', ' +
+                str(self.ThreeDecker)+', '+str(self.FourDecker)+')')
               
     def __eq__(self, other):
-        if self.SingleDecker==other.SingleDecker and self.TwoDecker==other.TwoDecker\
-            and self.ThreeDecker==other.ThreeDecker and self.FourDecker==other.FourDecker:
+        if self.SingleDecker == other.SingleDecker and self.TwoDecker == other.TwoDecker \
+            and self.ThreeDecker == other.ThreeDecker and self.FourDecker == other.FourDecker:
             return True
         else:
             return False
         
+
 class Field:
     def __init__(self):
         """Constructor"""
         self.f = [[False]*fieldSize for i in range(fieldSize)]
             
-    #f is a game field
-    def IndicateCell (self, y, x):
+    '''f is a game field'''
+    def IndicateCell(self, y, x):
         row = int(y) + 1
         col = int(x) + 1
         
-        if self.f[row][col] == False:
+        if self.f[row][col] is False:
             self.f[row][col] = True
             
-    def GetAvailableShips (self, shots):
-        ships = Ships(0,0,0,0)
+    def GetAvailableShips(self, shots):
+        ships = Ships(0, 0, 0, 0)
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
             
         shipLength = 0
         
-        for i in range(1,fieldSize-1):
-            for j in range (1,fieldSize):
-                if self.f[i][j] == True and self.f[i-1][j] == False and self.f[i+1][j] == False:
+        for i in range(1, fieldSize-1):
+            for j in range(1, fieldSize):
+                if self.f[i][j] is True and self.f[i-1][j] is False and self.f[i+1][j] is False:
                     seenCells[i][j] = True
-                    if self.f[i][j-1] == True:
-                        shipLength+=1
+                    if self.f[i][j-1] is True:
+                        shipLength += 1
                     else:
-                        shipLength=1
+                        shipLength = 1
                 elif shipLength != 0 and self.isDestroyed(i-1, j-2, shots):
                     ships.shrink(shipLength)
                     shipLength = 0
                 else:
                     shipLength = 0
-        for j in range(1,fieldSize-1):
-            for i in range(1,fieldSize):
-                if seenCells[i][j] == True:
+        for j in range(1, fieldSize-1):
+            for i in range(1, fieldSize):
+                if seenCells[i][j] is True:
                     continue
-                if self.f[i][j] == True:
-                    if self.f[i-1][j] == True:
-                        shipLength+=1
+                if self.f[i][j] is True:
+                    if self.f[i-1][j] is True:
+                        shipLength += 1
                     else:
-                        shipLength=1
+                        shipLength = 1
                 elif shipLength != 0 and self.isDestroyed(i-2, j-1, shots):
                     ships.shrink(shipLength)
                     shipLength = 0
@@ -89,79 +93,79 @@ class Field:
     def GetOrientation(self, y, x):
         row = int(y)+1
         col = int(x)+1
-        if self.f[row][col-1] == True or self.f[row][col+1] == True:
+        if self.f[row][col-1] is True or self.f[row][col+1] is True:
             i = 1
-            while self.f[row][col-i] == True:
+            while self.f[row][col-i] is True:
                 i += 1
             j = 1
-            while self.f[row][col+j] == True:
+            while self.f[row][col+j] is True:
                 j += 1
             return False, i - 1, j - 1
-	
+        
         i = 1
-        while self.f[row-i][col] == True:
+        while self.f[row-i][col] is True:
             i += 1
         j = 1
-        while self.f[row+j][col] == True:
+        while self.f[row+j][col] is True:
             j += 1
         return True, i - 1, j - 1
-    
+
     def isDestroyed(self, y, x, f):
         row = int(y)+1
         col = int(x)+1
-        direction, k, l = self.GetOrientation(row-1, col-1)
-        if self.f[row][col] == False:
+        direction, k, m = self.GetOrientation(row-1, col-1)
+        if self.f[row][col] is False:
             return False
-        if direction == True:
-            for i in range(row-k, row+l+1, 1):
-                if f.f[i][col] == False:
+        if direction is True:
+            for i in range(row-k, row+m+1, 1):
+                if f.f[i][col] is False:
                     return False
         else:
-            for i in range(col-k, col+l+1, 1):
-                if f.f[row][i] == False:
+            for i in range(col-k, col+m+1, 1):
+                if f.f[row][i] is False:
                     return False
         
         return True
 
     def isHitted(self, y, x):
         return bool(self.f[y+1][x+1])
-    
-    #Возвращает уничтоженные корабли
+
+    '''Возвращает уничтоженные корабли'''
     def GetStrickenShips(self, msg, shots):
         Stricken = StrickenShips()
-        if self.isDestroyed(int(msg[0]), int(msg[1]), shots)==True:
+        if self.isDestroyed(int(msg[0]), int(msg[1]), shots) is True:
             print("Уничтожен")
             Stricken.Hitted = msg
             return Stricken
-        if self.isHitted(int(msg[0]), int(msg[1]))==True:
+        if self.isHitted(int(msg[0]), int(msg[1])) is True:
             print("Попал")
             Stricken.Hitted = msg
             Stricken.Ambient = msg
             return Stricken
         row = int(msg[0])
         col = int(msg[1])
-        direction, k, l = self.GetOrientation(row, col)
+        direction, k, m = self.GetOrientation(row, col)
         Stricken = StrickenShips()
-        row+=1
-        col+=1
-        if direction == True:
+        row += 1
+        col += 1
+        if direction is True:
             #отмечаем поля вокруг "убитого" корабля на бэкэнде?
-            for i in range(row-k-1,row+l+2):
+            for i in range(row-k-1, row+m+2):
                 pass
             #    Stricken.Ambient.append([i, col-1])
             #    Stricken.Ambient.append((i, col+1))
             #Stricken.Ambient.append((row-k-1, col))
-            #Stricken.Ambient.append((row+l+1, col))
-            for i in range(col - k,col+l+1):
-                self.f[i+1][col+1]=False
+            #Stricken.Ambient.append((row+m+1, col))
+            for i in range(col - k, col+m+1):
+                self.f[i+1][col+1] = False
         else:
-            for i in range(col-k-1,col+l+2):
+            for i in range(col-k-1, col+m+2):
                 pass
             #    Stricken.Ambient.append((row-1, i))
             #    Stricken.Ambient.append((row+1, i))
             #Stricken.Ambient.append((row, col-k-1))
-            #Stricken.Ambient.append((row, col+l+1))
-            for i in range(col - k,col+l+1):
+            #Stricken.Ambient.append((row, col+m+1))
+            for i in range(col - k, col+m+1):
                 self.f[row+1][i+1] = False
         return Stricken
     
@@ -171,31 +175,31 @@ class Field:
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
         shipLength = 0
         #проход по горизонтал
-        for i in range(1,fieldSize-1):
-            for j in range(1,fieldSize):
-                if self.f[i][j] == True:
-                    if self.f[i][j-1] == True or self.f[i][j+1] == True:
+        for i in range(1, fieldSize-1):
+            for j in range(1, fieldSize):
+                if self.f[i][j] is True:
+                    if self.f[i][j-1] is True or self.f[i][j+1] is True:
                         shipLength += 1
                         seenCells[i][j] = True
                 elif shipLength > 4:
                     return False
                 elif shipLength != 0:
                     for k in range(j-shipLength-1, j+1):
-                        if self.f[i-1][k] == True or self.f[i+1][k] == True:
+                        if self.f[i-1][k] is True or self.f[i+1][k] is True:
                             return False
                     shipLength = 0
         #проход по вертикали
-        for j in range(1,fieldSize-1):
-            for i in range(1,fieldSize):
-                if seenCells[i][j] == True:
+        for j in range(1, fieldSize-1):
+            for i in range(1, fieldSize):
+                if seenCells[i][j] is True:
                     continue
-                if self.f[i][j] == True:
+                if self.f[i][j] is True:
                     shipLength += 1
                 elif shipLength > 4:
                     return False
                 elif shipLength != 0:
                     for k in range(i-shipLength-1, i+1):
-                        if self.f[k][j-1] == True or self.f[k][j+1] == True:
+                        if self.f[k][j-1] is True or self.f[k][j+1] is True:
                             return False
                     shipLength = 0
         return True
@@ -203,29 +207,28 @@ class Field:
     def prints(self):
         print("\n----------------------")
         print("  0 1 2 3 4 5 6 7 8 9")
-        for i in range(1,fieldSize-1):
-        #for i in range(0,fieldSize):
+        for i in range(1, fieldSize-1):
             sys.stdout.write(str(i-1)+" ")
-            for j in range(1,fieldSize-1):
-            #for j in range(0,fieldSize):
-                if self.f[i][j] == True:
+            for j in range(1, fieldSize-1):
+                if self.f[i][j] is True:
                     sys.stdout.write("X ")
                 else:
                     sys.stdout.write("* ")
             print()
         sys.stdout.write("----------------------\n")
-    
-#Автоматическая расстановка кораблей на поле
+
+
+'''Автоматическая расстановка кораблей на поле'''
 def GetShipPlacement(temp):
-    for lens in range (4,0,-1):#Тут переделал, посмотреть везде такие условия
-        for k in range (lens, 5):#Тут переделал, посмотреть везде такие условия
+    for lens in range(4, 0, -1):
+        for k in range(lens, 5):
             flag = True
-            row1,col1,row2,col2 = 0,0,0,0
-            while flag == True:
+            row1, col1, row2, col2 = 0, 0, 0, 0
+            while flag is True:
                 flag = False
                 orientation = random.randint(0, 100) % 2
-                row1 = random.randint(0,100)%(10-(lens-1)*(1-orientation))+1
-                col1 = random.randint(0,100)%(10-(lens-1)*orientation)+1
+                row1 = random.randint(0, 100) % (10-(lens-1)*(1-orientation))+1
+                col1 = random.randint(0, 100) % (10-(lens-1)*orientation)+1
                 if orientation == 1:
                     col2 = col1 + lens - 1
                     row2 = row1
@@ -233,11 +236,11 @@ def GetShipPlacement(temp):
                     row2 = row1 + lens - 1
                     col2 = col1
                 #проверка, что корабль не пересекается с уже заданными
-                for i in range(col1-1,col2+2):
-                    for j in range(row1-1,row2+2):
-                        if temp.f[j][i] == True:
-                            flag=True
-            for i in range(col1,col2+1):
-                for j in range(row1,row2+1):
-                    temp.f[j][i]=True
+                for i in range(col1-1, col2+2):
+                    for j in range(row1-1, row2+2):
+                        if temp.f[j][i] is True:
+                            flag = True
+            for i in range(col1, col2+1):
+                for j in range(row1, row2+1):
+                    temp.f[j][i] = True
     return temp

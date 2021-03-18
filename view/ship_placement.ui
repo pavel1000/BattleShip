@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>960</width>
+    <height>540</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>960</width>
+    <height>540</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="windowOpacity">
+   <double>0.000000000000000</double>
+  </property>
+  <widget class="QWidget" name="field">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>960</width>
+     <height>540</height>
+    </size>
+   </property>
+   <layout class="QHBoxLayout" name="fieldLayout">
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QFrame" name="frame">
+       <property name="geometry">
+        <rect>
+         <x>34</x>
+         <y>61</y>
+         <width>400</width>
+         <height>400</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_0">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_1"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_2"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_3"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_4"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_5"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_6"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_7"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_8"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_9"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_10"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_1">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_11"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_12"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_13"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_14"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_15"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_16"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_17"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_18"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_19"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_20"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_21"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_22"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_23"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_24"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_25"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_26"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_27"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_28"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_29"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_30"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_31"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_32"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_33"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_34"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_35"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_36"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_37"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_38"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_39"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_40"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_41"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_42"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_43"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_44"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_45"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_46"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_47"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_48"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_49"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_50"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_51"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_52"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_53"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_54"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_55"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_56"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_57"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_58"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_59"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_60"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_61"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_62"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_63"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_64"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_65"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_66"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_67"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_68"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_69"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_70"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_71"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_72"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_73"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_74"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_75"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_76"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_77"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_78"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_79"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_80"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_81"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_82"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_83"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_84"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_85"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_86"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_87"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_88"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_89"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_90"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_91"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_92"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_93"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_94"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_95"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_96"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_97"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_98"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_99"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView_100"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QFrame" name="frame_3">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>60</y>
+         <width>430</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="frame_5">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>76</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>1</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_101">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_102">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="lineWidth">
+              <number>1</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QFrame" name="frame_6">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>120</y>
+          <width>114</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_103"/>
+           </item>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_104"/>
+           </item>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_105">
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QFrame" name="frame_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>152</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_106"/>
+           </item>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_107"/>
+           </item>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_108"/>
+           </item>
+           <item>
+            <widget class="QGraphicsView" name="graphicsView_109"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="label_1">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>20</y>
+          <width>34</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>x4</string>
+        </property>
+       </widget>
+       <widget class="QFrame" name="frame_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>38</width>
+          <height>38</height>
+         </rect>
+        </property>
+        <property name="acceptDrops">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QGraphicsView" name="graphicsView">
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="label_2">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>72</y>
+          <width>34</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>x3</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>120</y>
+          <width>34</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>x2</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>170</y>
+          <width>34</width>
+          <height>34</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>x1</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="pushButton_1">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>400</y>
+         <width>140</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Сброс</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>400</y>
+         <width>140</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Играть</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
