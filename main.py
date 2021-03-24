@@ -4,8 +4,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QMimeData, QPoint
 from PyQt5.QtGui import QDrag, QMouseEvent, QPixmap
 from view.ship_placement4 import Ui_MainWindow
-import sys
+from view.form import Ui_Form
 
+import sys
 shots = {"username": f.Field(), "enemy": f.Field()}
 shots["username"] = f.Field()
 shots["enemy"] = f.Field()
@@ -15,8 +16,6 @@ fields["username"] = f.Field()
 fields["enemy"] = f.Field()
 
 turn = {"username": False, "enemy": False}
-
-
 def playerTurn(username, enemy):
     print(username)
     print("Выберите точку удара: ")
@@ -74,14 +73,6 @@ def RandomFieldFilling(name):
             if randomField.f[i][j] is True:
                 fields[name].IndicateCell((i-1), (j-1))
 
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super(MainWindow, self).__init__()
-        win = uic.loadUi(r'e:\программы\Python\GitProjects\BattleShip\view\ship_placement4.ui', self)
-        print('load success')
-        win.show()
-        #Game()
 
 class DragButton(QPushButton):
     def __init__(self, but, p):
@@ -170,6 +161,9 @@ class mywindow(QMainWindow):
         super(mywindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.startWidget = QWidget()
+        self.ui.startWidget = Ui_Form()
+        self.ui.startWidget.setupUi(self)
 
 
         pixmap = QPixmap('images/cross.png')
@@ -182,6 +176,17 @@ class mywindow(QMainWindow):
         #self.ui.label.setStyleSheet('background-color: green;')
         self.ui.pushButton_1 = DragButton(self.ui.pushButton_1, self.ui.pushButton_1.parent())
         self.ui.frame_6 = DragFrame(self.ui.frame_6, self.ui.frame_6.parent())
+        self.ui.centralwidget.hide()
+        self.ui.startWidget.pushButton.clicked.connect(self.on_click)
+
+
+    def on_click(self):
+        self.ui.centralwidget.show()
+
+
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
