@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>946</width>
-    <height>527</height>
+    <width>1015</width>
+    <height>767</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -97,6 +100,9 @@
           </item>
           <item>
            <widget class="QGraphicsView" name="graphicsView_10"/>
+          </item>
+          <item>
+           <widget class="QGraphicsView" name="graphicsView"/>
           </item>
          </layout>
         </item>
@@ -453,7 +459,7 @@
         <rect>
          <x>40</x>
          <y>60</y>
-         <width>430</width>
+         <width>431</width>
          <height>251</height>
         </rect>
        </property>
@@ -657,8 +663,8 @@
          <rect>
           <x>10</x>
           <y>20</y>
-          <width>38</width>
-          <height>38</height>
+          <width>41</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="acceptDrops">
@@ -686,19 +692,6 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="pixmap">
-            <pixmap>../images/shape.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
        <widget class="QLabel" name="label_2">
