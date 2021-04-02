@@ -1,13 +1,13 @@
 import field as f
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QMimeData, QPoint
+from PyQt5.QtCore import Qt, QMimeData, QPoint, pyqtSignal, QMargins
 from PyQt5.QtGui import QDrag, QMouseEvent, QPixmap
 from view.ship_placement5 import Ui_MainWindow
 from view.form import Ui_Form
 import sys
+import math
 
-import sys
 shots = {"username": f.Field(), "enemy": f.Field()}
 shots["username"] = f.Field()
 shots["enemy"] = f.Field()
@@ -113,20 +113,39 @@ class DragButton(QPushButton):
         super(DragButton, self).mouseReleaseEvent(event)
 
 class DragFrame(QFrame):
+    fix_pos = pyqtSignal()
+    
     def __init__(self, f, p):
         super().__init__(p)
+        self.section=None
         self.setGeometry(f.geometry())
-        self.setLayout(f.layout())
-        for c in f.findChildren(QLabel):
-            c.setParent(self)
-
+        self.setLayout(QGridLayout())
+        self.layout().setContentsMargins(QMargins(0, 0, 0, 0))
+        self.layout().setSpacing(0)
+        self.labels = f.findChildren(QLabel)
+        for i in range(len(self.labels)):
+            self.layout().addWidget(self.labels[i], 0, i)
+        self.direction = 0        #horizontal
+        
+    def getSection(self, pos):
+        if self.direction == 0:
+            dist = pos.x()
+            for i in range(len(self.labels)):
+                if dist >= self.labels[i].pos().x() and dist <= self.labels[i].pos().x() + self.labels[i].size().width():
+                    self.section = i
+        else:
+            dist = pos.y()
+            for i in range(len(self.labels)):
+                if dist >= self.labels[i].pos().y() and dist <= self.labels[i].pos().y() + self.labels[i].size().height():
+                    self.section = i
+    
     def mousePressEvent(self, event):
         self.__mousePressPos = None
         self.__mouseMovePos = None
         if event.button() == Qt.LeftButton:
             self.__mousePressPos = event.globalPos()
             self.__mouseMovePos = event.globalPos()
-
+            self.getSection(self.mapFromGlobal(self.__mousePressPos))
         super(DragFrame, self).mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
@@ -137,18 +156,30 @@ class DragFrame(QFrame):
             diff = globalPos - self.__mouseMovePos
             newPos = self.mapFromGlobal(currPos + diff)
             self.move(newPos)
-
             self.__mouseMovePos = globalPos
-
         super(DragFrame, self).mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
         if self.__mousePressPos is not None:
             moved = event.globalPos() - self.__mousePressPos 
+            self.lastPos = self.__mousePressPos
+            self.fix_pos.emit()
             if moved.manhattanLength() > 3:
+                print('drop')
                 event.ignore()
                 return
-
+            else:
+                print('click')
+                for i in range(len(self.labels)):
+                    self.layout().removeWidget(self.labels[i])
+                self.setGeometry(self.x(), self.y(), self.height(), self.width())
+                if self.direction == 0:
+                    for i in range(len(self.labels)):
+                        self.layout().addWidget(self.labels[i], i, 0)
+                else:
+                    for i in range(len(self.labels)):
+                        self.layout().addWidget(self.labels[i], 0, i)
+                self.direction = 1 - self.direction
         super(DragFrame, self).mouseReleaseEvent(event)
 
 class mywindow(QMainWindow):
@@ -168,6 +199,25 @@ class mywindow(QMainWindow):
         self.ui.frame_7 = DragFrame(self.ui.frame_7, self.ui.frame_7.parent())
         self.ui.centralwidget.hide()
         self.ui.startWidget.pushButton.clicked.connect(self.on_click)
+        self.ui.frame_4.fix_pos.connect(self.getCell)
+        self.ui.frame_5.fix_pos.connect(self.getCell)
+        self.ui.frame_6.fix_pos.connect(self.getCell)
+        self.ui.frame_7.fix_pos.connect(self.getCell)
+    
+    def getCell(self):
+        dragged_ship=self.sender()
+        print(dragged_ship.lastPos)
+        cells = self.ui.frame_3.findChildren(QLabel)
+        min=math.sqrt(cells[0].size().width()**2+cells[0].size().height()**2)
+        for c in cells:
+            dist = math.sqrt((c.pos().x()+c.parent().pos().x()-dragged_ship.pos().x())**2+(c.pos().y()+c.parent().pos().y()-dragged_ship.pos().y())**2)
+            if dist <= min:
+                print(c.pos().x(),dragged_ship.pos().x())
+                print(c.pos().x()+c.parent().pos().x(),c.pos().y()+c.parent().pos().y())
+                print(c.pos().y(),dragged_ship.pos().y())
+                print(c.parent().pos().x(),c.parent().pos().y())
+                min = dist
+                print(c.objectName())
 
 
     def on_click(self):
