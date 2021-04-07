@@ -170,6 +170,7 @@ class DragFrame(QFrame):
                 return
             else:
                 print('click')
+                #изменение положения корабля с горизонтального на вертикальное и наоборот
                 for i in range(len(self.labels)):
                     self.layout().removeWidget(self.labels[i])
                 self.setGeometry(self.x(), self.y(), self.height(), self.width())
@@ -182,27 +183,51 @@ class DragFrame(QFrame):
                 self.direction = 1 - self.direction
         super(DragFrame, self).mouseReleaseEvent(event)
 
-class mywindow(QMainWindow):
+class startWindow(QMainWindow):
+    def __init__(self, window):
+        super(startWindow, self).__init__()
+        self.ui = Ui_Form()
+        self.ui.setupUi(self)
+        self.window = window
+        self.ui.pushButton.clicked.connect(self.on_click)
+
+    def on_click(self):
+        self.hide()
+        self.window.show()
+
+class myWindow(QMainWindow):
     def __init__(self):
-        super(mywindow, self).__init__()
+        super(myWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.startWidget = QWidget()
-        self.ui.startWidget = Ui_Form()
-        self.ui.startWidget.setupUi(self)
+        self.UI()
 
+    def UI(self):
         pixmap = QPixmap('e:/программы/Python/GitProjects/BattleShip/images/cross.png').scaled(self.ui.frame_4.size().width()-2, self.ui.frame_4.size().height()-2)
         self.ui.pushButton_1 = DragButton(self.ui.pushButton_1, self.ui.pushButton_1.parent())
         self.ui.frame_4 = DragFrame(self.ui.frame_4, self.ui.frame_4.parent())
         self.ui.frame_5 = DragFrame(self.ui.frame_5, self.ui.frame_5.parent())
         self.ui.frame_6 = DragFrame(self.ui.frame_6, self.ui.frame_6.parent())
         self.ui.frame_7 = DragFrame(self.ui.frame_7, self.ui.frame_7.parent())
-        self.ui.centralwidget.hide()
-        self.ui.startWidget.pushButton.clicked.connect(self.on_click)
         self.ui.frame_4.fix_pos.connect(self.getCell)
         self.ui.frame_5.fix_pos.connect(self.getCell)
         self.ui.frame_6.fix_pos.connect(self.getCell)
         self.ui.frame_7.fix_pos.connect(self.getCell)
+
+        self.saveFrameGeometry()
+
+        self.ui.pushButton_1.clicked.connect(self.returnFrames)
+        self.ui.pushButton_2.clicked.connect(self.loadGame)
+
+    def saveFrameGeometry(self):
+        self.framesGeometry = []
+        for i in self.findChildren(DragFrame):
+            self.framesGeometry.append(i.geometry())
+
+    def returnFrames(self):
+        frames = self.findChildren(DragFrame)
+        for i in range(len(frames)):
+            frames[i].setGeometry(self.framesGeometry[i])
     
     def getCell(self):
         dragged_ship=self.sender()
@@ -218,16 +243,16 @@ class mywindow(QMainWindow):
                 print(c.parent().pos().x(),c.parent().pos().y())
                 min = dist
                 print(c.objectName())
+    
+    def loadGame(self):
+        pass
 
-
-    def on_click(self):
-        self.ui.centralwidget.show()
-        self.ui.startWidget.pushButton.hide()
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     #ex = MainWindow()
-    application = mywindow()
-    application.show()
+    placement = myWindow()
+    start = startWindow(placement)
+    start.show()
     sys.exit(app.exec_())
