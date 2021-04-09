@@ -117,17 +117,18 @@ class DragFrame(QFrame):
     
     def __init__(self, f, p):
         super().__init__(p)
-        self.section=None
+        self.section = None
         self.setGeometry(f.geometry())
         self.setLayout(QGridLayout())
         self.layout().setContentsMargins(QMargins(0, 0, 0, 0))
         self.layout().setSpacing(0)
         self.labels = f.findChildren(QLabel)
+        self.shipLength = len(self.labels)
         for i in range(len(self.labels)):
             self.layout().addWidget(self.labels[i], 0, i)
         self.direction = 0        #horizontal
         
-    def getSection(self, pos):
+    def saveSection(self, pos):
         if self.direction == 0:
             dist = pos.x()
             for i in range(len(self.labels)):
@@ -145,7 +146,7 @@ class DragFrame(QFrame):
         if event.button() == Qt.LeftButton:
             self.__mousePressPos = event.globalPos()
             self.__mouseMovePos = event.globalPos()
-            self.getSection(self.mapFromGlobal(self.__mousePressPos))
+            self.saveSection(self.mapFromGlobal(self.__mousePressPos))
         super(DragFrame, self).mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
@@ -171,17 +172,20 @@ class DragFrame(QFrame):
             else:
                 print('click')
                 #изменение положения корабля с горизонтального на вертикальное и наоборот
-                for i in range(len(self.labels)):
-                    self.layout().removeWidget(self.labels[i])
-                self.setGeometry(self.x(), self.y(), self.height(), self.width())
-                if self.direction == 0:
-                    for i in range(len(self.labels)):
-                        self.layout().addWidget(self.labels[i], i, 0)
-                else:
-                    for i in range(len(self.labels)):
-                        self.layout().addWidget(self.labels[i], 0, i)
-                self.direction = 1 - self.direction
+                self.changeDirection()
         super(DragFrame, self).mouseReleaseEvent(event)
+    
+    def changeDirection(self):
+        for i in range(len(self.labels)):
+            self.layout().removeWidget(self.labels[i])
+        self.setGeometry(self.x(), self.y(), self.height(), self.width())
+        if self.direction == 0:
+            for i in range(len(self.labels)):
+                self.layout().addWidget(self.labels[i], i, 0)
+        else:
+            for i in range(len(self.labels)):
+                self.layout().addWidget(self.labels[i], 0, i)
+        self.direction = 1 - self.direction
 
 class startWindow(QMainWindow):
     def __init__(self, window):
@@ -209,40 +213,49 @@ class myWindow(QMainWindow):
         self.ui.frame_5 = DragFrame(self.ui.frame_5, self.ui.frame_5.parent())
         self.ui.frame_6 = DragFrame(self.ui.frame_6, self.ui.frame_6.parent())
         self.ui.frame_7 = DragFrame(self.ui.frame_7, self.ui.frame_7.parent())
-        self.ui.frame_4.fix_pos.connect(self.getCell)
-        self.ui.frame_5.fix_pos.connect(self.getCell)
-        self.ui.frame_6.fix_pos.connect(self.getCell)
-        self.ui.frame_7.fix_pos.connect(self.getCell)
+        self.ui.frame_4.fix_pos.connect(self.fixCell)
+        self.ui.frame_5.fix_pos.connect(self.fixCell)
+        self.ui.frame_6.fix_pos.connect(self.fixCell)
+        self.ui.frame_7.fix_pos.connect(self.fixCell)
 
-        self.saveFrameGeometry()
+        self.saveShipsGeometry()
 
         self.ui.pushButton_1.clicked.connect(self.returnFrames)
         self.ui.pushButton_2.clicked.connect(self.loadGame)
 
-    def saveFrameGeometry(self):
+    def saveShipsGeometry(self):
         self.framesGeometry = []
         for i in self.findChildren(DragFrame):
             self.framesGeometry.append(i.geometry())
 
     def returnFrames(self):
         frames = self.findChildren(DragFrame)
-        for i in range(len(frames)):
-            frames[i].setGeometry(self.framesGeometry[i])
+        for j in range(len(frames)):
+            frames[j].setGeometry(self.framesGeometry[j])
+            if frames[j].direction == 1:
+                for i in range(len(frames[j].labels)):
+                    frames[j].layout().removeWidget(frames[j].labels[i])
+                for i in range(len(frames[j].labels)):
+                    frames[j].layout().addWidget(frames[j].labels[i], 0, i)
+                frames[j].direction = 0
     
-    def getCell(self):
-        dragged_ship=self.sender()
-        print(dragged_ship.lastPos)
+    def fixCell(self):
+        dragged_ship = self.sender()
         cells = self.ui.frame_3.findChildren(QLabel)
-        min=math.sqrt(cells[0].size().width()**2+cells[0].size().height()**2)
+        x = dragged_ship.pos().x()+dragged_ship.labels[dragged_ship.section].geometry().center().x()
+        y = dragged_ship.pos().y()+dragged_ship.labels[dragged_ship.section].geometry().center().y()
+        m = min(cells[0].size().width()//2+1, cells[0].size().height()//2+1)
+        pos = None
         for c in cells:
-            dist = math.sqrt((c.pos().x()+c.parent().pos().x()-dragged_ship.pos().x())**2+(c.pos().y()+c.parent().pos().y()-dragged_ship.pos().y())**2)
-            if dist <= min:
-                print(c.pos().x(),dragged_ship.pos().x())
-                print(c.pos().x()+c.parent().pos().x(),c.pos().y()+c.parent().pos().y())
-                print(c.pos().y(),dragged_ship.pos().y())
-                print(c.parent().pos().x(),c.parent().pos().y())
-                min = dist
+            cx = c.geometry().center().x()+c.parent().pos().x()
+            cy = c.geometry().center().y()+c.parent().pos().y()
+            dist = max(abs(cx-x), abs(cy-y))
+            if dist <= m:
+                m = dist
+                pos = c.pos()+c.parent().pos()-dragged_ship.labels[dragged_ship.section].pos()
                 print(c.objectName())
+        if pos != None:
+            dragged_ship.setGeometry(pos.x(),pos.y(),dragged_ship.width(),dragged_ship.height())
     
     def loadGame(self):
         pass
@@ -251,7 +264,6 @@ class myWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    #ex = MainWindow()
     placement = myWindow()
     start = startWindow(placement)
     start.show()
