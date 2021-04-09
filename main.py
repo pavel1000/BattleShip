@@ -1,9 +1,9 @@
 import field as f
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QMimeData, QPoint, pyqtSignal, QMargins
+from PyQt5.QtCore import Qt, QMimeData, QPoint, pyqtSignal, QMargins, QRect
 from PyQt5.QtGui import QDrag, QMouseEvent, QPixmap
-from view.ship_placement5 import Ui_MainWindow
+from view.ship_placement6 import Ui_MainWindow
 from view.form import Ui_Form
 import sys
 import math
@@ -118,12 +118,13 @@ class DragFrame(QFrame):
     def __init__(self, f, p):
         super().__init__(p)
         self.section = None
-        self.setGeometry(f.geometry())
+        #self.setGeometry(f.geometry())
+        self.labels = f.findChildren(QLabel)
+        self.shipLength = len(self.labels)
+        self.setGeometry(f.x(), f.y(), f.height()*self.shipLength, f.height())
         self.setLayout(QGridLayout())
         self.layout().setContentsMargins(QMargins(0, 0, 0, 0))
         self.layout().setSpacing(0)
-        self.labels = f.findChildren(QLabel)
-        self.shipLength = len(self.labels)
         for i in range(len(self.labels)):
             self.layout().addWidget(self.labels[i], 0, i)
         self.direction = 0        #horizontal
@@ -182,9 +183,11 @@ class DragFrame(QFrame):
         if self.direction == 0:
             for i in range(len(self.labels)):
                 self.layout().addWidget(self.labels[i], i, 0)
+                print(self.labels[i].geometry())
         else:
             for i in range(len(self.labels)):
                 self.layout().addWidget(self.labels[i], 0, i)
+                print(self.labels[i].geometry())
         self.direction = 1 - self.direction
 
 class startWindow(QMainWindow):
@@ -217,11 +220,23 @@ class myWindow(QMainWindow):
         self.ui.frame_5.fix_pos.connect(self.fixCell)
         self.ui.frame_6.fix_pos.connect(self.fixCell)
         self.ui.frame_7.fix_pos.connect(self.fixCell)
+        self.fieldAlignment()
 
         self.saveShipsGeometry()
 
         self.ui.pushButton_1.clicked.connect(self.returnFrames)
         self.ui.pushButton_2.clicked.connect(self.loadGame)
+
+    def fieldAlignment(self):
+        self.cells = self.ui.frame_3.findChildren(QLabel)
+        self.ui.frame_3.setGeometry(self.ui.frame_3.x(),self.ui.frame_3.y(),352,352)
+        self.ui.frame_3.setLayout(QGridLayout())
+        self.ui.frame_3.layout().setGeometry(QRect(0,0,self.ui.frame_3.width(),self.ui.frame_3.height()))
+        self.ui.frame_3.layout().setContentsMargins(QMargins(0, 0, 0, 0))
+        self.ui.frame_3.layout().setSpacing(0)
+        for i in range(10):
+            for j in range(10):
+                self.ui.frame_3.layout().addWidget(self.cells[i*10+j], i, j)
 
     def saveShipsGeometry(self):
         self.framesGeometry = []
@@ -229,6 +244,7 @@ class myWindow(QMainWindow):
             self.framesGeometry.append(i.geometry())
 
     def returnFrames(self):
+        print(self.ui.frame_3.layout().geometry())
         frames = self.findChildren(DragFrame)
         for j in range(len(frames)):
             frames[j].setGeometry(self.framesGeometry[j])
@@ -241,12 +257,11 @@ class myWindow(QMainWindow):
     
     def fixCell(self):
         dragged_ship = self.sender()
-        cells = self.ui.frame_3.findChildren(QLabel)
         x = dragged_ship.pos().x()+dragged_ship.labels[dragged_ship.section].geometry().center().x()
         y = dragged_ship.pos().y()+dragged_ship.labels[dragged_ship.section].geometry().center().y()
-        m = min(cells[0].size().width()//2+1, cells[0].size().height()//2+1)
+        m = min(self.cells[0].size().width()//2+1, self.cells[0].size().height()//2+1)
         pos = None
-        for c in cells:
+        for c in self.cells:
             cx = c.geometry().center().x()+c.parent().pos().x()
             cy = c.geometry().center().y()+c.parent().pos().y()
             dist = max(abs(cx-x), abs(cy-y))
