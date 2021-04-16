@@ -42,11 +42,16 @@ class Ships:
 
 class Field:
     def __init__(self):
-        """Constructor"""
+        '''f is a game field'''
         self.f = [[False]*fieldSize for i in range(fieldSize)]
             
-    '''f is a game field'''
+    def clear(self):
+        for i in range(0, fieldSize):
+            for j in range(0, fieldSize):
+                self.f[i][j] = False
+    
     def IndicateCell(self, y, x):
+        '''Принимает значения в диапозоне от 0 до 9.'''
         row = int(y) + 1
         col = int(x) + 1
         
@@ -54,6 +59,7 @@ class Field:
             self.f[row][col] = True
             
     def GetAvailableShips(self, shots):
+        '''Возвращает "живые" корабли в виде структуры(класса)'''
         ships = Ships(0, 0, 0, 0)
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
             
@@ -91,6 +97,7 @@ class Field:
     # GetOrientation returns orientation of ship: false if the ship is horizontal and
     # true if the ship is vertical; i,j - positions of shift to left and right
     def GetOrientation(self, y, x):
+        '''Принимает значения в диапозоне от 0 до 9.'''
         row = int(y)+1
         col = int(x)+1
         if self.f[row][col-1] is True or self.f[row][col+1] is True:
@@ -111,6 +118,7 @@ class Field:
         return True, i - 1, j - 1
 
     def isDestroyed(self, y, x, f):
+        '''Принимает значения в диапозоне от 0 до 9.'''
         row = int(y)+1
         col = int(x)+1
         direction, k, m = self.GetOrientation(row-1, col-1)
@@ -130,8 +138,8 @@ class Field:
     def isHitted(self, y, x):
         return bool(self.f[y+1][x+1])
 
-    '''Возвращает уничтоженные корабли'''
     def GetStrickenShips(self, msg, shots):
+        '''Возвращает уничтоженные корабли'''
         Stricken = StrickenShips()
         if self.isDestroyed(int(msg[0]), int(msg[1]), shots) is True:
             print("Уничтожен")
@@ -170,8 +178,6 @@ class Field:
         return Stricken
     
     def CheckPositionOfShips(self):
-        if self.f.GetAvailableShips() != Ships(0, 0, 0, 0):
-            return False
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
         shipLength = 0
         #проход по горизонтал
@@ -219,7 +225,8 @@ class Field:
 
 
 '''Автоматическая расстановка кораблей на поле'''
-def GetShipPlacement(temp):
+def GetShipPlacement():
+    temp = Field()
     for lens in range(4, 0, -1):
         for k in range(lens, 5):
             flag = True
