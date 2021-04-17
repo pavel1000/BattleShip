@@ -5,12 +5,6 @@ import sys
 fieldSize = 12
 
 
-class StrickenShips:
-    def __init__(self):
-        self.Ambient = []
-        self.Hitted = ""
-        
-
 class Ships:
     def __init__(self, SingleDecker, TwoDecker, ThreeDecker, FourDecker):
         self.SingleDecker = SingleDecker
@@ -20,13 +14,13 @@ class Ships:
     
     def shrink(self, length):
         if length == 1:
-            self.SingleDecker += 1
+            self.SingleDecker -= 1
         elif length == 2:
-            self.TwoDecker += 1
+            self.TwoDecker -= 1
         elif length == 3:
-            self.ThreeDecker += 1
+            self.ThreeDecker -= 1
         elif length == 4:
-            self.FourDecker += 1
+            self.FourDecker -= 1
     
     def __str__(self):
         return ('('+str(self.SingleDecker)+', '+str(self.TwoDecker)+', ' +
@@ -55,12 +49,11 @@ class Field:
         row = int(y) + 1
         col = int(x) + 1
         
-        if self.f[row][col] is False:
-            self.f[row][col] = True
+        self.f[row][col] = True
             
     def GetAvailableShips(self, shots):
         '''Возвращает "живые" корабли в виде структуры(класса)'''
-        ships = Ships(0, 0, 0, 0)
+        ships = Ships(4, 3, 2, 1)
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
             
         shipLength = 0
@@ -78,6 +71,7 @@ class Field:
                     shipLength = 0
                 else:
                     shipLength = 0
+
         for j in range(1, fieldSize-1):
             for i in range(1, fieldSize):
                 if seenCells[i][j] is True:
@@ -94,10 +88,9 @@ class Field:
                     shipLength = 0
         return ships
     
-    # GetOrientation returns orientation of ship: false if the ship is horizontal and
-    # true if the ship is vertical; i,j - positions of shift to left and right
     def GetOrientation(self, y, x):
-        '''Принимает значения в диапозоне от 0 до 9.'''
+        '''Определяет ориентацию корабля.Принимает значения в диапозоне от 0 до 9.\
+        Возвращает true, если вертикальное направление и false если горизонтальное.'''
         row = int(y)+1
         col = int(x)+1
         if self.f[row][col-1] is True or self.f[row][col+1] is True:
@@ -118,64 +111,53 @@ class Field:
         return True, i - 1, j - 1
 
     def isDestroyed(self, y, x, f):
-        '''Принимает значения в диапозоне от 0 до 9.'''
+        '''Проверяет уничтожен ли корабль.\
+        Принимает значения в диапозоне от 0 до 9.'''
         row = int(y)+1
         col = int(x)+1
-        direction, k, m = self.GetOrientation(row-1, col-1)
+        vertical, k, m = self.GetOrientation(row-1, col-1)
         if self.f[row][col] is False:
             return False
-        if direction is True:
-            for i in range(row-k, row+m+1, 1):
+        if vertical is True:
+            for i in range(row-k, row+m+1):
                 if f.f[i][col] is False:
                     return False
         else:
-            for i in range(col-k, col+m+1, 1):
+            for i in range(col-k, col+m+1):
                 if f.f[row][i] is False:
                     return False
-        
         return True
 
     def isHitted(self, y, x):
         return bool(self.f[y+1][x+1])
 
-    def GetStrickenShips(self, msg, shots):
-        '''Возвращает уничтоженные корабли'''
-        Stricken = StrickenShips()
-        if self.isDestroyed(int(msg[0]), int(msg[1]), shots) is True:
+    def GetStrickenShips(self, row, col, shots):
+        '''Возвращает статус выстрела (попал/не попал) и отмечает \
+        соседние клетки при попадании'''
+        if self.isDestroyed(row, col, shots) is True:
             print("Уничтожен")
-            Stricken.Hitted = msg
-            return Stricken
-        if self.isHitted(int(msg[0]), int(msg[1])) is True:
+            vertical, k, m = self.GetOrientation(row, col)
+            row += 1
+            col += 1
+            if vertical is True:
+                for i in range(row-k-1, row+m+2):
+                    for j in range(col-1, col+2):
+                        shots.f[i][j] = True
+            else:
+                for i in range(col-k-1, col+m+2):
+                    for j in range(row-1, row+2):
+                        shots.f[j][i] = True
+        elif self.isHitted(row, col) is True:
             print("Попал")
-            Stricken.Hitted = msg
-            Stricken.Ambient = msg
-            return Stricken
-        row = int(msg[0])
-        col = int(msg[1])
-        direction, k, m = self.GetOrientation(row, col)
-        Stricken = StrickenShips()
-        row += 1
-        col += 1
-        if direction is True:
-            #отмечаем поля вокруг "убитого" корабля на бэкэнде?
-            for i in range(row-k-1, row+m+2):
-                pass
-            #    Stricken.Ambient.append([i, col-1])
-            #    Stricken.Ambient.append((i, col+1))
-            #Stricken.Ambient.append((row-k-1, col))
-            #Stricken.Ambient.append((row+m+1, col))
-            for i in range(col - k, col+m+1):
-                self.f[i+1][col+1] = False
+            row += 1
+            col += 1
+            shots.f[row-1][col-1] = True
+            shots.f[row-1][col+1] = True
+            shots.f[row+1][col-1] = True
+            shots.f[row+1][col+1] = True
         else:
-            for i in range(col-k-1, col+m+2):
-                pass
-            #    Stricken.Ambient.append((row-1, i))
-            #    Stricken.Ambient.append((row+1, i))
-            #Stricken.Ambient.append((row, col-k-1))
-            #Stricken.Ambient.append((row, col+m+1))
-            for i in range(col - k, col+m+1):
-                self.f[row+1][i+1] = False
-        return Stricken
+            return False
+        return True
     
     def CheckPositionOfShips(self):
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
