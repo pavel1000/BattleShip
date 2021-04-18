@@ -86,38 +86,44 @@ class game_field(QWidget):
             click = event.pos() - self.ui.field.pos()
             x = click.x()
             y = click.y()
-            m = min(self.cells[0].size().width()//2+1, self.cells[0].size().height()//2+1)
-            cell = None
-            for c in self.cells:
-                cx = c.geometry().center().x()
-                cy = c.geometry().center().y()
-                dist = max(abs(cx-x), abs(cy-y))
-                if dist <= m:
-                    m = dist
-                    cell = c
-                    print(c.objectName())
+            cell = self.findCellByIndex(self.cells, x, y)
             if cell is not None:
                 size = self.cells[0].width()
-                fp = self.ui.field.pos()
                 pos = cell.pos()
                 x, y = pos.x()//size, pos.y()//size
-                print(y, x)
                 if self.shots['username'].isHitted(y, x) is False:
                     self.shots['username'].IndicateCell(y, x)
-                    self.shots['username'].prints()
-                    strickenShips = self.fields['enemy'].GetStrickenShips(y, x, self.shots['username'])
-                    if strickenShips is True:
+                    hitted, shooted = self.fields['enemy'].GetStrickenShips(y, x, self.shots['username'])
+                    if hitted is True:
+                        cell.setPixmap(QPixmap('../images/shape.png'))
+                        #отмечаем ячейки, в которые можно не стрелять
+                        for s in shooted:
+                            print(s[0], s[1])
+                            if s[0]>=0 and s[0]<=9 and s[1]>=0 and s[1]<=9:
+                                self.cells[s[0]*10+s[1]].setPixmap(QPixmap('../images/cross.png'))
                         livingShips = self.fields['enemy'].GetAvailableShips(self.shots['username'])
                         if livingShips == field.Ships(0, 0, 0, 0):
                             QMessageBox.about(self, 'The end', "Победил username")
                             turn['username'] = False
-                        cell.setPixmap(QPixmap('../images/shape.png'))
                     else:
                         cell.setPixmap(QPixmap('../images/cross.png'))
                         turn['username'] = False
                         turn['enemy'] = True
                         self.enemyTurn('enemy', 'username')
         super(game_field, self).mousePressEvent(event)
+    
+    def findCellByIndex(self, cells, x, y):
+        m = min(cells[0].size().width()//2+1, cells[0].size().height()//2+1)
+        cell = None
+        for c in cells:
+            cx = c.geometry().center().x()
+            cy = c.geometry().center().y()
+            dist = max(abs(cx-x), abs(cy-y))
+            if dist <= m:
+                m = dist
+                cell = c
+                #print(c.objectName())
+        return cell
     
     def enemyTurn(self, username, enemy):
         '''делаем рандомный выстрел за ИИ'''
@@ -132,9 +138,11 @@ class game_field(QWidget):
             self.shots[username].IndicateCell(row, col)
             self.shots[username].prints()
 
-            fp = self.ui.field_2.pos()
+            #fp = self.ui.field_2.pos()
             size = self.cells_2[0].width()
-            x, y = fp.x()+col*size, fp.y()+row*size
+            x, y = col*size+size//2, row*size+size//2
+            cell = self.findCellByIndex(self.cells_2, x, y)
+            '''x, y = fp.x()+col*size, fp.y()+row*size
             m = min(self.cells[0].size().width()//2+1, self.cells[0].size().height()//2+1)
             cell = None
             for c in self.cells_2:
@@ -143,21 +151,29 @@ class game_field(QWidget):
                 dist = max(abs(cx-x), abs(cy-y))
                 if dist <= m:
                     m = dist
-                    cell = c
-            if cell is not None:
-                x, y = cell.pos().x()//size, cell.pos().y()//size
-                print(y, x)
-                cell.setPixmap(QPixmap('../images/cross.png'))
-            else:
+                    cell = c'''
+            if cell is None:
                 print('Боту не удалось найти ячейку для выстрела '+str(row)+' '+str(col))
+                print('Останавка игры...')
+                turn[enemy] = False
+                turn[username] = False
+                return
+            x, y = cell.pos().x()//size, cell.pos().y()//size
             
-            strickenShips = self.fields[enemy].GetStrickenShips(row, col, self.shots[username])
-            if strickenShips is True:
+            hitted, shooted = self.fields[enemy].GetStrickenShips(y, x, self.shots[username])
+            if hitted is True:
+                cell.setPixmap(QPixmap('../images/shape.png'))
+                #отмечаем ячейки, в которые можно не стрелять
+                for s in shooted:
+                    print(s[0], s[1])
+                    if s[0]>=0 and s[0]<=9 and s[1]>=0 and s[1]<=9:
+                        self.cells_2[s[0]*10+s[1]].setPixmap(QPixmap('../images/cross.png'))
                 livingShips = self.fields[enemy].GetAvailableShips(self.shots[username])
                 if livingShips == field.Ships(0, 0, 0, 0):
                     print("Победил "+username)
                     QMessageBox.about(self, 'The end', "Победил"+username)
                     turn[username] = False
             else:
+                cell.setPixmap(QPixmap('../images/cross.png'))
                 turn[enemy] = True
                 turn[username] = False

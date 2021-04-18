@@ -100,6 +100,17 @@ class DragFrame(QFrame):
                 self.layout().addWidget(self.labels[i], 0, i)
         self.direction = 1 - self.direction
 
+    def is_cross(self, x, y, w, h):
+        xA = [self.pos().x(), self.pos().x()+self.width()]  # координаты x обеих точек корабля 1
+        xB = [x, x+w]  # координаты x обеих точек корабля 2
+
+        yA = [self.pos().y(), self.pos().y()+self.height()]  # координаты y обеих точек корабля 1
+        yB = [y, y+h]  # координаты y обеих точек корабля 2
+
+        if max(xB) < min(xA) or max(xA) < min(xB) or max(yA) < min(yB) or max(yB) < min(yA):
+            return False
+        return True
+
 
 class ship_placement(QMainWindow):
     def __init__(self, fields, shots):
@@ -183,6 +194,7 @@ class ship_placement(QMainWindow):
         x = dragged_ship.pos().x()+dragged_ship.labels[dragged_ship.clickSection].geometry().center().x()
         y = dragged_ship.pos().y()+dragged_ship.labels[dragged_ship.clickSection].geometry().center().y()
         m = min(self.cells[0].size().width()//2+1, self.cells[0].size().height()//2+1)
+
         pos = None
         for c in self.cells:
             cx = c.geometry().center().x()+c.parent().pos().x()
@@ -192,26 +204,52 @@ class ship_placement(QMainWindow):
                 m = dist
                 pos = c.pos()+c.parent().pos()-dragged_ship.labels[dragged_ship.clickSection].pos()
                 print(c.objectName())
-        if pos is not None:
+                
+        if pos is not None and self.shipsIntersection(pos.x(), pos.y(), dragged_ship) is False:
+            #устанавлка позиции корабля
             dragged_ship.setGeometry(pos.x(), pos.y(), dragged_ship.width(), dragged_ship.height())
             dragged_ship.onField = 1
+            #проверка выхода за границы поля
             self.checkOutOfBounds(dragged_ship)
         else:
             dragged_ship.onField = 0
             dragged_ship.restoreGeometry()
         self.updateCounts()
+    
+    def shipsIntersection(self, x, y, sample):
+        '''проверка на пересечения кораблей'''
+        for ship in self.ships:
+            for s in ship:
+                if s is sample:
+                    continue
+                if s.is_cross(x, y, sample.width(), sample.height()) is True:
+                    print(True)
+                    return True
+        print(False)
+        return False
 
     def checkOutOfBounds(self, ship):
         pos = ship.pos() - self.ui.field.pos()
         size = self.cells[0].width()
         print(pos.y()//size, pos.x()//size)
         if ship.direction == 0:
+            #первое сланаемое от 0 до 9, второе от 1 до 4
             shift = pos.x()//size + ship.length - 10
             if (shift > 0):
+                #проверка на пересечения
+                if self.shipsIntersection(ship.pos().x()-shift*size,ship.pos().y(), ship) is True:
+                    ship.onField = 0
+                    ship.restoreGeometry()
+                    return
                 ship.setGeometry(ship.pos().x()-shift*size,ship.pos().y(),ship.width(),ship.height())
         else:
             shift = pos.y()//size + ship.length - 10
             if (shift > 0):
+                #проверка на пересечения
+                if self.shipsIntersection(ship.pos().x(),ship.pos().y()-shift*size, ship) is True:
+                    ship.onField = 0
+                    ship.restoreGeometry()
+                    return
                 ship.setGeometry(ship.pos().x(),ship.pos().y()-shift*size,ship.width(),ship.height())
 
     def updateCounts(self):

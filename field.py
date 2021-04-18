@@ -134,6 +134,7 @@ class Field:
     def GetStrickenShips(self, row, col, shots):
         '''Возвращает статус выстрела (попал/не попал) и отмечает \
         соседние клетки при попадании'''
+        shooted = []
         if self.isDestroyed(row, col, shots) is True:
             print("Уничтожен")
             vertical, k, m = self.GetOrientation(row, col)
@@ -142,11 +143,15 @@ class Field:
             if vertical is True:
                 for i in range(row-k-1, row+m+2):
                     for j in range(col-1, col+2):
-                        shots.f[i][j] = True
+                        if self.f[i][j] is False:
+                            shots.f[i][j] = True
+                            shooted.append([i-1, j-1])
             else:
                 for i in range(col-k-1, col+m+2):
                     for j in range(row-1, row+2):
-                        shots.f[j][i] = True
+                        if self.f[i][j] is False:
+                            shots.f[j][i] = True
+                            shooted.append([i-1, j-1])
         elif self.isHitted(row, col) is True:
             print("Попал")
             row += 1
@@ -155,9 +160,13 @@ class Field:
             shots.f[row-1][col+1] = True
             shots.f[row+1][col-1] = True
             shots.f[row+1][col+1] = True
+            shooted.append([row-2, col-2])
+            shooted.append([row-2, col])
+            shooted.append([row, col-2])
+            shooted.append([row, col])
         else:
-            return False
-        return True
+            return False, shooted
+        return True, shooted
     
     def CheckPositionOfShips(self):
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
