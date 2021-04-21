@@ -1,0 +1,47 @@
+version = 0
+sysroot = ""
+sysroots_dir = ""
+parts = []
+
+[Application]
+entry_point = ""
+is_console = true
+is_bundle = false
+name = "Test"
+qmake_configuration = ""
+script = "bluetooth.py"
+syspath = ""
+
+[Application.Package]
+name = "E:\\Users\\Solust\\Documents\\GitHub\\BattleShip"
+exclude = [ "*.pyc", "*.pyd", "*.pyo", "*.pyx", "*.pxi", "__pycache__", "*-info", "EGG_INFO", "*.so",]
+[[Application.Package.Content]]
+name = ".gitignore"
+included = false
+is_directory = false
+
+[[Application.Package.Content]]
+name = "bluetooth.py"
+included = true
+is_directory = false
+
+[[Application.Package.Content]]
+name = "field.py"
+included = false
+is_directory = false
+
+[[Application.Package.Content]]
+name = "main.py"
+included = false
+is_directory = false
+
+[[Application.Package.Content]]
+name = "README.md"
+included = false
+is_directory = false
+
+[[Application.Package.Content]]
+name = "untitled0.py"
+included = false
+is_directory = false
+
