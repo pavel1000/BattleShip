@@ -157,8 +157,8 @@ class ship_placement(QMainWindow):
 
     def returnShips(self):
         for ship in self.ships:
-            for i in range(len(ship)):
-                ship[i].restoreGeometry()
+            for s in ship:
+                s.restoreGeometry()
         self.fields['username'].clear()
         self.updateCounts()
 
@@ -175,7 +175,8 @@ class ship_placement(QMainWindow):
         self.checkCellsSize()
         
     def checkCellsSize(self):
-        '''проверка корректности размера ячеек поля'''
+        '''Проверка корректности размера ячеек поля\
+        (то есть равенства ширины и высоты).'''
         standartWidth, standartHeight = self.cells[0].width(), self.cells[0].height()
         equalWidth, equalHeight = True, True
         for c in self.cells:
@@ -203,8 +204,7 @@ class ship_placement(QMainWindow):
             if dist <= m:
                 m = dist
                 pos = c.pos()+c.parent().pos()-dragged_ship.labels[dragged_ship.clickSection].pos()
-                print(c.objectName())
-                
+        
         if pos is not None and self.shipsIntersection(pos.x(), pos.y(), dragged_ship) is False:
             #устанавлка позиции корабля
             dragged_ship.setGeometry(pos.x(), pos.y(), dragged_ship.width(), dragged_ship.height())
@@ -223,15 +223,12 @@ class ship_placement(QMainWindow):
                 if s is sample:
                     continue
                 if s.is_cross(x, y, sample.width(), sample.height()) is True:
-                    print(True)
                     return True
-        print(False)
         return False
 
     def checkOutOfBounds(self, ship):
         pos = ship.pos() - self.ui.field.pos()
         size = self.cells[0].width()
-        print(pos.y()//size, pos.x()//size)
         if ship.direction == 0:
             #первое сланаемое от 0 до 9, второе от 1 до 4
             shift = pos.x()//size + ship.length - 10
@@ -253,8 +250,7 @@ class ship_placement(QMainWindow):
                 ship.setGeometry(ship.pos().x(),ship.pos().y()-shift*size,ship.width(),ship.height())
 
     def updateCounts(self):
-        j = 0
-        k = 0
+        j, k = 0, 0
         for ship in self.ships:
             n = 0
             for i in range(len(ship)):
@@ -312,7 +308,7 @@ class ship_placement(QMainWindow):
 
     def loadGame(self):
         self.initField()
-        self.fields['username'].prints()
+        #self.fields['username'].prints()
         if self.fields['username'].CheckPositionOfShips() is True:
             print('Корабли расставлены верно')
             self.game.show()
@@ -338,22 +334,20 @@ class ship_placement(QMainWindow):
         temp = field.Field()
         size = self.cells[0].width()
         fp = self.ui.field.pos()
-        for lens in range(4, 0, -1):
-            #print(lens)
-            for k in range(lens-4, 1):
-                #print(k)
+        for lens in range(3, -1, -1):
+            for k in range(lens-4, 0):
                 flag = True
                 row1, col1, row2, col2 = 0, 0, 0, 0
                 while flag is True:
                     flag = False
                     orientation = random.randint(0, 100) % 2
-                    row1 = random.randint(0, 100) % (10-(lens-1)*orientation)+1
-                    col1 = random.randint(0, 100) % (10-(lens-1)*(1-orientation))+1
+                    row1 = random.randint(0, 100) % (10-lens*orientation)+1
+                    col1 = random.randint(0, 100) % (10-lens*(1-orientation))+1
                     if orientation == 0:
-                        col2 = col1 + lens - 1
+                        col2 = col1 + lens
                         row2 = row1
                     else:
-                        row2 = row1 + lens - 1
+                        row2 = row1 + lens
                         col2 = col1
                     #проверка, что корабль не пересекается с уже заданными
                     for i in range(row1-1, row2+2):
@@ -364,10 +358,10 @@ class ship_placement(QMainWindow):
                     for j in range(col1, col2+1):
                         temp.f[i][j] = True
                 row1, col1 = row1 - 1, col1 - 1
-                self.ships[lens-1][k].setGeometry(fp.x()+col1*size,fp.y()+row1*size,self.ships[lens-1][k].width(),self.ships[lens-1][k].height())
-                self.ships[lens-1][k].onField = True
+                self.ships[lens][k].setGeometry(fp.x()+col1*size,fp.y()+row1*size,self.ships[lens][k].width(),self.ships[lens][k].height())
+                self.ships[lens][k].onField = True
                 if orientation == 1:
-                    self.ships[lens-1][k].changeDirection()
+                    self.ships[lens][k].changeDirection()
         for i in range(1, 11):
             for j in range(1, 11):
                 if temp.f[i][j] is True:

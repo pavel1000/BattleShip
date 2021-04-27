@@ -27,8 +27,10 @@ class Ships:
                 str(self.ThreeDecker)+', '+str(self.FourDecker)+')')
               
     def __eq__(self, other):
-        if self.SingleDecker == other.SingleDecker and self.TwoDecker == other.TwoDecker \
-            and self.ThreeDecker == other.ThreeDecker and self.FourDecker == other.FourDecker:
+        if self.SingleDecker == other.SingleDecker and \
+            self.TwoDecker == other.TwoDecker and \
+                self.ThreeDecker == other.ThreeDecker and \
+                self.FourDecker == other.FourDecker:
             return True
         else:
             return False
@@ -57,7 +59,7 @@ class Field:
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
             
         shipLength = 0
-        
+        #проход по горизонтали
         for i in range(1, fieldSize-1):
             for j in range(1, fieldSize):
                 if self.f[i][j] is True and self.f[i-1][j] is False and self.f[i+1][j] is False:
@@ -71,7 +73,8 @@ class Field:
                     shipLength = 0
                 else:
                     shipLength = 0
-
+        
+        #проход по вертикали
         for j in range(1, fieldSize-1):
             for i in range(1, fieldSize):
                 if seenCells[i][j] is True:
@@ -129,6 +132,8 @@ class Field:
         return True
 
     def isHitted(self, y, x):
+        '''Проверяет стреляли ли в ячейку со строкой y и столбцом x.\
+        Принимает значения в диапозоне от 0 до 9.'''
         return bool(self.f[y+1][x+1])
 
     def GetStrickenShips(self, row, col, shots):
@@ -145,30 +150,29 @@ class Field:
                     for j in range(col-1, col+2):
                         if self.f[i][j] is False:
                             shots.f[i][j] = True
-                            shooted.append([i-1, j-1])
+                            #проверка выхода за границы
+                            if i >= 1 and i <= 10 and j >= 1 and j <= 10:
+                                shooted.append([i-1, j-1])
             else:
-                for i in range(col-k-1, col+m+2):
-                    for j in range(row-1, row+2):
+                for i in range(row-1, row+2):
+                    for j in range(col-k-1, col+m+2):
                         if self.f[i][j] is False:
-                            shots.f[j][i] = True
-                            shooted.append([i-1, j-1])
+                            shots.f[i][j] = True
+                            if i >= 1 and i <= 10 and j >= 1 and j <= 10:
+                                shooted.append([i-1, j-1])
         elif self.isHitted(row, col) is True:
             print("Попал")
-            row += 1
-            col += 1
-            shots.f[row-1][col-1] = True
-            shots.f[row-1][col+1] = True
-            shots.f[row+1][col-1] = True
-            shots.f[row+1][col+1] = True
-            shooted.append([row-2, col-2])
-            shooted.append([row-2, col])
-            shooted.append([row, col-2])
-            shooted.append([row, col])
+            for i in range(-1, 2, 2):
+                for j in range(-1, 2, 2):
+                    shots.f[row+i+1][col+j+1] = True
+                    if row+i >= 0 and row+i <= 9 and col+j >= 0 and col+j <= 9:
+                        shooted.append([row+i, col+j])
         else:
             return False, shooted
         return True, shooted
     
     def CheckPositionOfShips(self):
+        '''Проверяет правильность расстановки кораблей'''
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
         shipLength = 0
         #проход по горизонтал
@@ -215,23 +219,23 @@ class Field:
         sys.stdout.write("----------------------\n")
 
 
-'''Автоматическая расстановка кораблей на поле'''
 def GetShipPlacement():
+    '''Автоматическая расстановка кораблей на поле'''
     temp = Field()
-    for lens in range(4, 0, -1):
-        for k in range(lens, 5):
+    for lens in range(3, -1, -1):
+        for k in range(lens, 4):
             flag = True
             row1, col1, row2, col2 = 0, 0, 0, 0
             while flag is True:
                 flag = False
                 orientation = random.randint(0, 100) % 2
-                row1 = random.randint(0, 100) % (10-(lens-1)*(1-orientation))+1
-                col1 = random.randint(0, 100) % (10-(lens-1)*orientation)+1
+                row1 = random.randint(0, 100) % (10-lens*(1-orientation))+1
+                col1 = random.randint(0, 100) % (10-lens*orientation)+1
                 if orientation == 1:
-                    col2 = col1 + lens - 1
+                    col2 = col1 + lens
                     row2 = row1
                 else:
-                    row2 = row1 + lens - 1
+                    row2 = row1 + lens
                     col2 = col1
                 #проверка, что корабль не пересекается с уже заданными
                 for i in range(col1-1, col2+2):

@@ -75,7 +75,7 @@ class startWindow(QMainWindow):
         self.ui.pushButton.setGeometry(x, y, self.ui.pushButton.width(), self.ui.pushButton.height())
     
     def resizeEvent(self, event):
-        '''Подгоняет размер элементов под размер экрана'''
+        '''Подгоняет размер элементов под размер экрана.'''
         self.positioning()
         return super(startWindow, self).resizeEvent(event)
 
