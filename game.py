@@ -1,39 +1,58 @@
 import random
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, pyqtSignal, QMargins
+from PyQt5.QtWidgets import QWidget, QLabel, QFrame, QGridLayout, QMessageBox
+from PyQt5.QtCore import Qt, QMargins, pyqtSignal
 from PyQt5.QtGui import QPixmap
 
 import field
 from view.game_field import Ui_Form
 
-turn = {"username": True, "enemy": False}
 
 def RandomFieldFilling(field2):
+    '''Метод для расстановки кораблей противника-бота.'''
+    field2.clear()
     randomField = field.GetShipPlacement()
     for i in range(1, 11):
         for j in range(1, 11):
             if randomField.f[i][j] is True:
                 field2.IndicateCell((i-1), (j-1))
 
+
 class game_field(QWidget):
-    def __init__(self, fields, shots):
+    closed = pyqtSignal()
+
+    def __init__(self, fields):
         super(game_field, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.fields = fields
-        self.shots = shots
-        RandomFieldFilling(fields['enemy'])
-        #print('Поле противника')
-        #fields['enemy'].prints()
+        self.shots = {"username": field.Field(), "enemy": field.Field()}
+        # TODO: Надо будет добавить рандом для
+        # выбора очередности хода в "сетевой игре"
+        self.turn = {"username": True, "enemy": False}
+        RandomFieldFilling(self.fields['enemy'])
+        # print('Поле противника')
+        # fields['enemy'].prints()
         self.UI()
-    
+
     def UI(self):
         self.cells = self.ui.field.findChildren(QLabel)
         self.cells_2 = self.ui.field_2.findChildren(QLabel)
-        #self.positioning()
         self.fieldAlignment(self.ui.field, self.cells)
         self.fieldAlignment(self.ui.field_2, self.cells_2)
     
+    def resetFields(self):
+        for c in self.cells:
+            c.setPixmap(QPixmap('../images/square.png'))
+        for c in self.cells_2:
+            c.setPixmap(QPixmap('../images/square.png'))
+        # reset shots
+        for s in self.shots.values():
+            s.clear()
+        RandomFieldFilling(self.fields['enemy'])
+        # TODO: Надо будет добавить рандом для
+        # выбора очередности хода в "сетевой игре"
+        self.turn = {"username": True, "enemy": False}
+
     def fieldAlignment(self, field, cells):
         '''Метод расставляет лейблы на поле при помощи QGridLayot.'''
         field.setLayout(QGridLayout())
@@ -45,7 +64,7 @@ class game_field(QWidget):
             for j in range(10):
                 field.layout().addWidget(cells[i*10+j], i, j)
         self.checkCellsSize(cells)
-    
+
     def checkCellsSize(self, cells):
         '''проверка корректности размера ячеек поля'''
         standartWidth, standartHeight = cells[0].width(), cells[0].height()
@@ -59,29 +78,29 @@ class game_field(QWidget):
             print('Неравная ширина ячеек')
         if not equalHeight:
             print('Неравная высота ячеек')
-    
+
     def positioning(self):
         '''Задание относительного положения элементов'''
-        #поле 1
+        # поле 1
         fieldSize = min(self.width()*4//10, self.height()*8//10)
         fieldSize -= fieldSize % 10
         x = (self.width()//2-fieldSize)//2
         y = (self.height()-fieldSize)//2
         self.ui.field.setGeometry(x, y, fieldSize, fieldSize)
-        #поле 2
+        # поле 2
         x = (self.width()//2-fieldSize)//2 + self.width()//2
         y = (self.height()-fieldSize)//2
         self.ui.field_2.setGeometry(x, y, fieldSize, fieldSize)
         self.checkCellsSize(self.cells)
         self.checkCellsSize(self.cells_2)
-    
+
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
         self.positioning()
         return super(game_field, self).resizeEvent(event)
-    
+
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton and turn['username'] is True:
+        if event.button() == Qt.LeftButton and self.turn['username'] is True:
             self.__mousePressPos = event.globalPos()
             click = event.pos() - self.ui.field.pos()
             x = click.x()
@@ -96,20 +115,22 @@ class game_field(QWidget):
                     hitted, shooted = self.fields['enemy'].GetStrickenShips(y, x, self.shots['username'])
                     if hitted is True:
                         cell.setPixmap(QPixmap('../images/shape.png'))
-                        #отмечаем ячейки, в которые можно не стрелять
+                        # отмечаем ячейки, в которые можно не стрелять
                         for s in shooted:
                             self.cells[s[0]*10+s[1]].setPixmap(QPixmap('../images/cross.png'))
                         livingShips = self.fields['enemy'].GetAvailableShips(self.shots['username'])
                         if livingShips == field.Ships(0, 0, 0, 0):
                             QMessageBox.about(self, 'The end', "Победил username")
-                            turn['username'] = False
+                            self.turn['username'] = False
+                            self.close()
+                            self.closed.emit()
                     else:
                         cell.setPixmap(QPixmap('../images/cross.png'))
-                        turn['username'] = False
-                        turn['enemy'] = True
+                        self.turn['username'] = False
+                        self.turn['enemy'] = True
                         self.enemyTurn('enemy', 'username')
         super(game_field, self).mousePressEvent(event)
-    
+
     def findCellByIndex(self, cells, x, y):
         m = min(cells[0].size().width()//2+1, cells[0].size().height()//2+1)
         cell = None
@@ -121,10 +142,10 @@ class game_field(QWidget):
                 m = dist
                 cell = c
         return cell
-    
+
     def enemyTurn(self, username, enemy):
         '''делаем рандомный выстрел за ИИ'''
-        while turn[username] is True:
+        while self.turn[username] is True:
             flag = False
             while flag is False:
                 row = random.randint(0, 100) % 10
@@ -139,23 +160,25 @@ class game_field(QWidget):
             if cell is None:
                 print('Боту не удалось найти ячейку для выстрела '+str(row)+' '+str(col))
                 print('Останавка игры...')
-                turn[enemy] = False
-                turn[username] = False
+                self.turn[enemy] = False
+                self.turn[username] = False
                 return
             x, y = cell.pos().x()//size, cell.pos().y()//size
-            
+
             hitted, shooted = self.fields[enemy].GetStrickenShips(y, x, self.shots[username])
             if hitted is True:
                 cell.setPixmap(QPixmap('../images/shape.png'))
-                #отмечаем ячейки, в которые можно не стрелять
+                # отмечаем ячейки, в которые можно не стрелять
                 for s in shooted:
                     self.cells_2[s[0]*10+s[1]].setPixmap(QPixmap('../images/cross.png'))
                 livingShips = self.fields[enemy].GetAvailableShips(self.shots[username])
                 if livingShips == field.Ships(0, 0, 0, 0):
                     print("Победил "+username)
                     QMessageBox.about(self, 'The end', "Победил "+username)
-                    turn[username] = False
+                    self.turn[username] = False
+                    self.close()
+                    self.closed.emit()
             else:
                 cell.setPixmap(QPixmap('../images/cross.png'))
-                turn[enemy] = True
-                turn[username] = False
+                self.turn[enemy] = True
+                self.turn[username] = False

@@ -11,7 +11,7 @@ class Ships:
         self.TwoDecker = TwoDecker
         self.ThreeDecker = ThreeDecker
         self.FourDecker = FourDecker
-    
+
     def shrink(self, length):
         if length == 1:
             self.SingleDecker -= 1
@@ -21,11 +21,11 @@ class Ships:
             self.ThreeDecker -= 1
         elif length == 4:
             self.FourDecker -= 1
-    
+
     def __str__(self):
         return ('('+str(self.SingleDecker)+', '+str(self.TwoDecker)+', ' +
                 str(self.ThreeDecker)+', '+str(self.FourDecker)+')')
-              
+
     def __eq__(self, other):
         if self.SingleDecker == other.SingleDecker and \
             self.TwoDecker == other.TwoDecker and \
@@ -34,35 +34,36 @@ class Ships:
             return True
         else:
             return False
-        
+
 
 class Field:
     def __init__(self):
         '''f is a game field'''
         self.f = [[False]*fieldSize for i in range(fieldSize)]
-            
+
     def clear(self):
         for i in range(0, fieldSize):
             for j in range(0, fieldSize):
                 self.f[i][j] = False
-    
+
     def IndicateCell(self, y, x):
         '''Принимает значения в диапозоне от 0 до 9.'''
         row = int(y) + 1
         col = int(x) + 1
-        
+
         self.f[row][col] = True
-            
+
     def GetAvailableShips(self, shots):
         '''Возвращает "живые" корабли в виде структуры(класса)'''
         ships = Ships(4, 3, 2, 1)
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
-            
+
         shipLength = 0
-        #проход по горизонтали
+        # проход по горизонтали
         for i in range(1, fieldSize-1):
             for j in range(1, fieldSize):
-                if self.f[i][j] is True and self.f[i-1][j] is False and self.f[i+1][j] is False:
+                if self.f[i][j] is True and self.f[i-1][j] is False \
+                        and self.f[i+1][j] is False:
                     seenCells[i][j] = True
                     if self.f[i][j-1] is True:
                         shipLength += 1
@@ -73,8 +74,8 @@ class Field:
                     shipLength = 0
                 else:
                     shipLength = 0
-        
-        #проход по вертикали
+
+        # проход по вертикали
         for j in range(1, fieldSize-1):
             for i in range(1, fieldSize):
                 if seenCells[i][j] is True:
@@ -90,10 +91,12 @@ class Field:
                 else:
                     shipLength = 0
         return ships
-    
+
     def GetOrientation(self, y, x):
-        '''Определяет ориентацию корабля.Принимает значения в диапозоне от 0 до 9.\
-        Возвращает true, если вертикальное направление и false если горизонтальное.'''
+        '''Определяет ориентацию корабля.\
+            Принимает значения в диапозоне от 0 до 9.\
+        Возвращает true, если вертикальное направление \
+        и false если горизонтальное.'''
         row = int(y)+1
         col = int(x)+1
         if self.f[row][col-1] is True or self.f[row][col+1] is True:
@@ -104,7 +107,7 @@ class Field:
             while self.f[row][col+j] is True:
                 j += 1
             return False, i - 1, j - 1
-        
+
         i = 1
         while self.f[row-i][col] is True:
             i += 1
@@ -150,7 +153,7 @@ class Field:
                     for j in range(col-1, col+2):
                         if self.f[i][j] is False:
                             shots.f[i][j] = True
-                            #проверка выхода за границы
+                            # проверка выхода за границы
                             if i >= 1 and i <= 10 and j >= 1 and j <= 10:
                                 shooted.append([i-1, j-1])
             else:
@@ -170,12 +173,12 @@ class Field:
         else:
             return False, shooted
         return True, shooted
-    
+
     def CheckPositionOfShips(self):
         '''Проверяет правильность расстановки кораблей'''
         seenCells = [[False]*fieldSize for i in range(fieldSize)]
         shipLength = 0
-        #проход по горизонтал
+        # проход по горизонтал
         for i in range(1, fieldSize-1):
             for j in range(1, fieldSize):
                 if self.f[i][j] is True:
@@ -189,7 +192,7 @@ class Field:
                         if self.f[i-1][k] is True or self.f[i+1][k] is True:
                             return False
                     shipLength = 0
-        #проход по вертикали
+        # проход по вертикали
         for j in range(1, fieldSize-1):
             for i in range(1, fieldSize):
                 if seenCells[i][j] is True:
@@ -204,7 +207,7 @@ class Field:
                             return False
                     shipLength = 0
         return True
-    
+
     def prints(self):
         print("\n----------------------")
         print("  0 1 2 3 4 5 6 7 8 9")
@@ -237,7 +240,7 @@ def GetShipPlacement():
                 else:
                     row2 = row1 + lens
                     col2 = col1
-                #проверка, что корабль не пересекается с уже заданными
+                # проверка, что корабль не пересекается с уже заданными
                 for i in range(col1-1, col2+2):
                     for j in range(row1-1, row2+2):
                         if temp.f[j][i] is True:
