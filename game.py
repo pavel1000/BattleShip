@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt, QMargins, pyqtSignal
 from PyQt5.QtGui import QPixmap
 
 import field
+import resources_rc
 from view.game_field import Ui_Form
 
 
@@ -42,9 +43,9 @@ class game_field(QWidget):
     
     def resetFields(self):
         for c in self.cells:
-            c.setPixmap(QPixmap('../images/square.png'))
+            c.setPixmap(QPixmap(':/images/square.png'))
         for c in self.cells_2:
-            c.setPixmap(QPixmap('../images/square.png'))
+            c.setPixmap(QPixmap(':/images/square.png'))
         # reset shots
         for s in self.shots.values():
             s.clear()
@@ -114,10 +115,10 @@ class game_field(QWidget):
                     self.shots['username'].IndicateCell(y, x)
                     hitted, shooted = self.fields['enemy'].GetStrickenShips(y, x, self.shots['username'])
                     if hitted is True:
-                        cell.setPixmap(QPixmap('../images/shape.png'))
+                        cell.setPixmap(QPixmap(':/images/shape.png'))
                         # отмечаем ячейки, в которые можно не стрелять
                         for s in shooted:
-                            self.cells[s[0]*10+s[1]].setPixmap(QPixmap('../images/cross.png'))
+                            self.cells[s[0]*10+s[1]].setPixmap(QPixmap(':/images/cross.png'))
                         livingShips = self.fields['enemy'].GetAvailableShips(self.shots['username'])
                         if livingShips == field.Ships(0, 0, 0, 0):
                             QMessageBox.about(self, 'The end', "Победил username")
@@ -125,7 +126,7 @@ class game_field(QWidget):
                             self.close()
                             self.closed.emit()
                     else:
-                        cell.setPixmap(QPixmap('../images/cross.png'))
+                        cell.setPixmap(QPixmap(':/images/cross.png'))
                         self.turn['username'] = False
                         self.turn['enemy'] = True
                         self.enemyTurn('enemy', 'username')
@@ -167,10 +168,10 @@ class game_field(QWidget):
 
             hitted, shooted = self.fields[enemy].GetStrickenShips(y, x, self.shots[username])
             if hitted is True:
-                cell.setPixmap(QPixmap('../images/shape.png'))
+                cell.setPixmap(QPixmap(':/images/shape.png'))
                 # отмечаем ячейки, в которые можно не стрелять
                 for s in shooted:
-                    self.cells_2[s[0]*10+s[1]].setPixmap(QPixmap('../images/cross.png'))
+                    self.cells_2[s[0]*10+s[1]].setPixmap(QPixmap(':/images/cross.png'))
                 livingShips = self.fields[enemy].GetAvailableShips(self.shots[username])
                 if livingShips == field.Ships(0, 0, 0, 0):
                     print("Победил "+username)
@@ -179,6 +180,6 @@ class game_field(QWidget):
                     self.close()
                     self.closed.emit()
             else:
-                cell.setPixmap(QPixmap('../images/cross.png'))
+                cell.setPixmap(QPixmap(':/images/cross.png'))
                 self.turn[enemy] = True
                 self.turn[username] = False
