@@ -1,11 +1,11 @@
 from placement import ship_placement
+from game import game_field
 from view.form import Ui_Form
 
 import sys
 import field
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtCore import pyqtSignal
-from game import game_field
 
 '''
 def playerTurn(username, enemy):
