@@ -1,3 +1,5 @@
+
+
 from placement import ship_placement
 from game import game_field
 from view.form import Ui_Form
@@ -60,7 +62,6 @@ def Game():
             stillPlaying = playerTurn(username, enemy)
 '''
 
-
 class MainApp(QApplication):
     def __init__(self, argv):
         super().__init__(argv)
@@ -68,24 +69,35 @@ class MainApp(QApplication):
         self.start = startWindow()
         self.start.show()
 
-        self.placement = ship_placement()
-        
+        '''self.placement = ship_placement()
         self.game = game_field(self.placement.fields)
-        self.net = net_window()
-        self.net_game = net_game_field(self.placement.fields,self.net.connect, self.net.turn)
 
         self.placement.closed.connect(self.start.show)
         self.game.closed.connect(self.start.show)
         self.game.closed.connect(self.newGameChanges)
+        self.start.nextWin.connect(self.placement.show)
+        self.placement.nextWin.connect(self.game.show)'''
         
-        self.start.nextNetWin.connect(self.net.show)
+        self.net = net_window()
+        
+        self.placement = net_ship_placement(self.start.type, self.net.ip)
+        self.net_game = net_game_field(self.placement.fields, self.placement.connect, self.placement.turn)
+        
         self.net.nextNetWin.connect(self.placement.show)
         self.net.nextNetServerWin.connect(self.placement.show)
-        self.placement.nextNetWin.connect(self.net_game.show)
         
-        self.start.nextWin.connect(self.placement.show)
-        self.placement.nextWin.connect(self.game.show)
+        self.placement.closed.connect(self.start.show)
+        self.net_game.closed.connect(self.start.show)
+        self.net_game.closed.connect(self.newGameChanges)
+        self.start.nextNetWin.connect(self.net.show)
+        self.placement.nextNetWin.connect(self.net_game.show)
 
+        
+        
+        '''
+        self.start.nextWin.connect(self.placement.show)
+        self.placement.nextWin.connect(self.game.show)'''
+ 
     def newGameChanges(self):
         self.placement.returnShips()
         self.game.resetFields()
@@ -97,20 +109,23 @@ class startWindow(QWidget):
 
     def __init__(self):
         super(startWindow, self).__init__()
+        self.type = None 
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
         self.ui.newSoloGame.clicked.connect(self.nextWindow)
-        self.ui.newNetGame.clicked.connect(self.nextNetWin)
+        self.ui.newNetGame.clicked.connect(self.nextNetWindow)
     
 
     def nextWindow(self):
         self.close()
+        self.type = 1
         self.nextWin.emit()
     
     def nextNetWindow(self):
         self.close()
-        self.nextNetWin().emit()
+        self.type = 0
+        self.nextNetWin.emit()
 
     def positioning(self):
         x = self.width()//2 - self.ui.newSoloGame.width()//2
@@ -122,7 +137,6 @@ class startWindow(QWidget):
         '''Подгоняет размер элементов под размер экрана.'''
         self.positioning()
         return super(startWindow, self).resizeEvent(event)
-
 
 if __name__ == '__main__':
     app = MainApp(sys.argv)

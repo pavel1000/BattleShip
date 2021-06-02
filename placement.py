@@ -123,8 +123,10 @@ class ship_placement(QWidget):
     nextNetWin = pyqtSignal()
     closed = pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, typeGame,x):
         super(ship_placement, self).__init__()
+        self.type = typeGame
+        self.x = x
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.fields = {"username": field.Field(), "enemy": field.Field()}
@@ -140,6 +142,8 @@ class ship_placement(QWidget):
         self.ui.reset_button.clicked.connect(self.returnShips)
         self.ui.start_button.clicked.connect(self.loadGame)
         self.ui.random_button.clicked.connect(self.randomFilling)
+
+
 
     def framesToShips(self):
         '''Преобразует фрейм в класс с функционалом корабля'''
@@ -314,34 +318,17 @@ class ship_placement(QWidget):
         self.positioning()
         return super(ship_placement, self).resizeEvent(event)
 
-
-    def net(self):
-        if self.ip == "":
-            #Сервер
-            print("NE AD")
-            h_name = socket.gethostname()
-            IP_addres = socket.gethostbyname(h_name)
-            
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            server_address = (IP_addres, 9090)
-            print('Старт сервера на {} порт {}'.format(*server_address))
-            sock.bind(server_address)
-        else:
-            print("AD")
-            #Клиент
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            server_address = (self.ip, 9090)
-            print('Подключено к {} порт {}'.format(*server_address))
-            sock.connect(server_address)
-            
-            
     def loadGame(self):
         self.initField()
         # self.fields['username'].prints()
         if self.fields['username'].CheckPositionOfShips() is True:
             print('Корабли расставлены верно')
-            self.nextWin.emit()
-            self.nextNetWin.emit()
+            print(self.x)
+            #
+            if self.type == 1:
+                self.nextWin.emit()
+            else:
+                self.nextNetWin.emit()
             self.close()
         else:
             print('Корабли расставлены НЕ верно')

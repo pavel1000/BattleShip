@@ -8,30 +8,30 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(958, 538)
-        self.pushButton = QtWidgets.QPushButton(Dialog)
+class Ui_Form(object):
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(960, 540)
+        self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(270, 230, 211, 151))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(Dialog)
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
         self.pushButton_2.setGeometry(QtCore.QRect(520, 230, 221, 151))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.lineEdit = QtWidgets.QLineEdit(Dialog)
+        self.lineEdit = QtWidgets.QLineEdit(Form)
         self.lineEdit.setGeometry(QtCore.QRect(520, 190, 221, 31))
         self.lineEdit.setObjectName("lineEdit")
-        self.label = QtWidgets.QLabel(Dialog)
+        self.label = QtWidgets.QLabel(Form)
         self.label.setGeometry(QtCore.QRect(520, 170, 191, 16))
         self.label.setObjectName("label")
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.pushButton.setText(_translate("Dialog", "Создать сервер"))
-        self.pushButton_2.setText(_translate("Dialog", "Подключиться к серверу"))
-        self.label.setText(_translate("Dialog", "Введите ip другого игорока"))
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton.setText(_translate("Form", "Создать сервер"))
+        self.pushButton_2.setText(_translate("Form", "Подключиться к серверу"))
+        self.label.setText(_translate("Form", "Введите ip другого игорока"))
 
