@@ -234,27 +234,40 @@ class ship_placement(QWidget):
         return False
 
     def checkOutOfBounds(self, ship):
+        '''Проверка выхода за границы поля'''
         pos = ship.pos() - self.ui.field.pos()
         size = self.cells[0].width()
+        x, y = pos.x()//size, pos.y()//size
         if ship.direction == 0:
-            # первое сланаемое от 0 до 9, второе от 1 до 4
-            shift = pos.x()//size + ship.length - 10
-            if (shift > 0):
-                # проверка на пересечения
+            # первое слагаемое от 0 до 9, второе от 1 до 4
+            shift = x + ship.length - 10
+            if (shift > 0):     # проверка на выход за правую границу
                 if self.shipsIntersection(ship.pos().x()-shift*size, ship.pos().y(), ship) is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
                 ship.setGeometry(ship.pos().x()-shift*size, ship.pos().y(), ship.width(), ship.height())
+            elif x < 0:     # проверка на выход за левую границу
+                if self.shipsIntersection(ship.pos().x()-x*size, ship.pos().y(), ship) is True:
+                    ship.onField = 0
+                    ship.restoreGeometry()
+                    return
+                ship.setGeometry(ship.pos().x()-x*size, ship.pos().y(), ship.width(), ship.height())
         else:
             shift = pos.y()//size + ship.length - 10
-            if (shift > 0):
-                # проверка на пересечения
+            if (shift > 0):     # проверка на выход за верхнюю границу
                 if self.shipsIntersection(ship.pos().x(), ship.pos().y()-shift*size, ship) is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
                 ship.setGeometry(ship.pos().x(), ship.pos().y()-shift*size, ship.width(), ship.height())
+            elif y < 0:     # проверка на выход за верхнюю границу
+                if self.shipsIntersection(ship.pos().x(), ship.pos().y()-y*size, ship) is True:
+                    ship.onField = 0
+                    ship.restoreGeometry()
+                    return
+                ship.setGeometry(ship.pos().x(), ship.pos().y()-y*size, ship.width(), ship.height())
+            
 
     def updateCounts(self):
         j, k = 0, 0
