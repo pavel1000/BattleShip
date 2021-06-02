@@ -36,13 +36,13 @@ class net_game_field(QWidget):
         # print('Поле противника')
         # fields['enemy'].prints()
         self.UI()
-    
+
     def UI(self):
         self.cells = self.ui.field.findChildren(QLabel)
         self.cells_2 = self.ui.field_2.findChildren(QLabel)
         self.fieldAlignment(self.ui.field, self.cells)
         self.fieldAlignment(self.ui.field_2, self.cells_2)
- 
+
     def resetFields(self):
         for c in self.cells:
             c.setPixmap(QPixmap(':/images/square.png'))
@@ -101,23 +101,22 @@ class net_game_field(QWidget):
         '''Подгоняет размер элементов под размер экрана'''
         self.positioning()
         return super(net_game_field, self).resizeEvent(event)
-    def update_label(self):
+
+    def mousePressEvent(self, event):
+        print("Чей ход?")
+        print(self.turns)
+
         if self.turns[0] == 1:
             self.ui.label_201.setText(f"Ваш ход")
         else:
             self.ui.label_201.setText(f"Ждите хода")
-    def mousePressEvent(self, event):
-        print("Чей ход?")
-        print(self.turns)
-        QTimer.singleShot(1, self.update_label)
-            
         if event.button() == Qt.LeftButton and self.turns[0] == 1:
             self.__mousePressPos = event.globalPos()
-            
+
             click = event.pos() - self.ui.field.pos()
             x = click.x()
             y = click.y()
-            print(str(x) +"  "+ str(y))
+            print(str(x) + "  " + str(y))
             cell = self.findCellByIndex(self.cells, x, y)
             if cell is not None:
                 size = self.cells[0].width()
@@ -125,28 +124,29 @@ class net_game_field(QWidget):
                 x, y = pos.x()//size, pos.y()//size
                 if self.shots['username'].isHitted(y, x) is False:
                     self.shots['username'].IndicateCell(y, x)
-                    
-                    shot = str(y)+","+str(x)
+
+                    shot = str(x)+","+str(y)
                     self.connect[0].sendall(shot.encode())
-                    print("Точка "+ shot)
-                    
+                    print("Точка " + shot)
+
                     while True:
                         data = self.connect[0].recv(1024)
                         if data.decode() == "0":
                             print("ПОПАЛ!!!!!!!!!!!!!")
                             hitted = True
-                            break;
+                            break
                         elif data.decode() == "1":
                             print("НЕ ПОПАЛ!!!!!!!!!!!")
                             hitted = False
-                            break;
-                            
+                            break
+
                     if hitted is True:
                         print("Где проблема, если попал?")
                         cell.setPixmap(QPixmap(':/images/shape.png'))
-                        # отмечаем ячейки, в которые можно не стрелять                
-                        livingShips = self.fields['username'].GetAvailableShips(self.shots['username'])
-                        print("ВСЕГО ОСТАЛОСЬ КОРАБЛЕЙ! = "+ str(livingShips))
+                        # отмечаем ячейки, в которые можно не стрелять
+                        livingShips = self.fields['username'].GetAvailableShips(
+                            self.shots['enemy'])
+                        print("ВСЕГО ОСТАЛОСЬ КОРАБЛЕЙ! = " + str(livingShips))
                         if livingShips == field.Ships(0, 0, 0, 0):
                             self.connect[0].sendall("win".encode())
                             QMessageBox.about(self, 'The end', "You ПРОИГРАЛ")
@@ -154,18 +154,21 @@ class net_game_field(QWidget):
                             self.close()
                             self.closed.emit()
                     else:
+                        livingShips = self.fields['username'].GetAvailableShips(
+                            self.shots['enemy'])
+                        print("ВСЕГО ОСТАЛОСЬ КОРАБЛЕЙ! = " + str(livingShips))
                         cell.setPixmap(QPixmap(':/images/cross.png'))
                         self.turns[0] = False
                         self.turns[1] = True
-                        
+
                         self.connect[0].sendall("turn".encode())
         if self.turns[0] == 0:
             self.ui.label_201.setText(f"Ждите хода")
             print("Ушли в приём")
             self.ui.label_201
             self.enemyTurn("enemy", 'username')
-                #Нужно, зачем не помню
-                
+            # Нужно, зачем не помню
+
         super(net_game_field, self).mousePressEvent(event)
 
     def findCellByIndex(self, cells, x, y):
@@ -186,47 +189,48 @@ class net_game_field(QWidget):
             print("Прошли while not self.turns[0]:")
             data = self.connect[0].recv(1024)
             data = data.decode()
-            if data is not "":  
+            if data is not "":
                 print("Первое пришло (ход, победа или выстрел): "+data)
                 if data == "turn":
                     self.turns[0] = True
                     self.turns[1] = False
-                    
                     return
-                    #Ход меяется
+                    # Ход меяется
                 elif data == "win":
                     QMessageBox.about(self, 'The end', "You Выиграл")
                     self.close()
                     self.closed.emit()
                     return
-                    #Ты выиграл, соперник проиграл
+                    # Ты выиграл, соперник проиграл
                 else:
                     strs = str(data).split(',')
-                    x,y = int(strs[0]),int(strs[1])
+                    x, y = int(strs[0]), int(strs[1])
                     cell = self.findCellByIndex(self.cells_2, x, y)
                     print(str(x)+" "+str(y))
-                    
+
                     self.shots[username].IndicateCell(x, y)
-        
-                    hitted, _ = self.fields[enemy].GetStrickenShips(y, x, self.shots[username])
+                    self.fields[enemy].prints()
+                    self.shots[username].prints()
+                    hitted, _ = self.fields[enemy].GetStrickenShips(
+                        x, y, self.shots[username])
                     if hitted is True:
                         print("ПОПАЛCЯ!!!!!!!!!!!!!")
                         cell.setPixmap(QPixmap(':/images/shape.png'))
                         # отмечаем ячейки, в которые можно не стрелять
                         self.connect[0].sendall("0".encode())
                         self.turns[0] = False
-                        livingShips = self.fields[enemy].GetAvailableShips(self.shots[username])
+                        livingShips = self.fields[enemy].GetAvailableShips(
+                            self.shots[username])
                         if livingShips == field.Ships(0, 0, 0, 0):
                             print("Победил "+username)
-                            QMessageBox.about(self, 'The end', "Победил "+username)
+                            QMessageBox.about(
+                                self, 'The end', "Победил "+username)
                             self.turns[0] = False
                             self.connect[0].sendall("0".encode())
                             self.close()
                             self.closed.emit()
-                        
+
                     else:
                         cell.setPixmap(QPixmap(':/images/cross.png'))
                         self.connect[0].sendall("1".encode())
                         self.turns[0] = True
-    
-    
