@@ -35,6 +35,12 @@ class game_field(QWidget):
         # fields['enemy'].prints()
         self.UI()
 
+    def transit(self):
+        super(game_field, self).__init__()
+
+    def transit2(self,event):
+        super(game_field, self).mousePressEvent(event)
+
     def UI(self):
         self.cells = self.ui.field.findChildren(QLabel)
         self.cells_2 = self.ui.field_2.findChildren(QLabel)
