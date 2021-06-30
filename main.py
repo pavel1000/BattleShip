@@ -69,28 +69,29 @@ class MainApp(QApplication):
         self.start = startWindow()
         self.start.show()
 
-        '''self.placement = ship_placement()
+        self.placement = ship_placement()
         self.game = game_field(self.placement.fields)
 
         self.placement.closed.connect(self.start.show)
         self.game.closed.connect(self.start.show)
         self.game.closed.connect(self.newGameChanges)
         self.start.nextWin.connect(self.placement.show)
-        self.placement.nextWin.connect(self.game.show)'''
-        
+        self.placement.nextWin.connect(self.game.show)
+
         self.net = net_window()
-        
-        self.placement = net_ship_placement(self.start.type, self.net.ip)
-        self.net_game = net_game_field(self.placement.fields, self.placement.connect, self.placement.turn)
-        
-        self.net.nextNetWin.connect(self.placement.show)
-        self.net.nextNetServerWin.connect(self.placement.show)
-        
-        self.placement.closed.connect(self.start.show)
+
+        self.net_placement = net_ship_placement(self.start.type, self.net.ip)
+        self.net_game = net_game_field(self.net_placement.fields, self.net_placement.connect, self.net_placement.turn)
+
+        self.net.nextNetWin.connect(self.net_placement.show)
+        self.net.nextNetServerWin.connect(self.net_placement.show)
+        # self.net.pushBack(self.start.show)
+
+        self.net_placement.closed.connect(self.start.show)
         self.net_game.closed.connect(self.start.show)
         self.net_game.closed.connect(self.newGameChanges)
         self.start.nextNetWin.connect(self.net.show)
-        self.placement.nextNetWin.connect(self.net_game.show)
+        self.net_placement.nextWin.connect(self.net_game.show)
 
         
         

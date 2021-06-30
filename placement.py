@@ -15,12 +15,12 @@ class DragFrame(QFrame):
         super().__init__(p)
         self.clickSection = None
         self.onField = 0
-        self.direction = 0        # 0 - horizontal
+        self.direction = 0  # 0 - horizontal
         self.labels = f.findChildren(QLabel)
         self.length = len(self.labels)
 
         # set position and layout
-        self.setGeometry(f.x(), f.y(), f.height()*self.length, f.height())
+        self.setGeometry(f.x(), f.y(), f.height() * self.length, f.height())
         self.setLayout(QGridLayout())
         self.setFrameShape(QFrame.Shape.NoFrame)
         self.setLineWidth(0)
@@ -45,12 +45,14 @@ class DragFrame(QFrame):
         if self.direction == 0:
             dist = pos.x()
             for i in range(len(self.labels)):
-                if dist >= self.labels[i].pos().x() and dist <= self.labels[i].pos().x() + self.labels[i].size().width():
+                if dist >= self.labels[i].pos().x() and dist <= self.labels[i].pos().x() + self.labels[
+                    i].size().width():
                     self.clickSection = i
         else:
             dist = pos.y()
             for i in range(len(self.labels)):
-                if dist >= self.labels[i].pos().y() and dist <= self.labels[i].pos().y() + self.labels[i].size().height():
+                if dist >= self.labels[i].pos().y() and dist <= self.labels[i].pos().y() + self.labels[
+                    i].size().height():
                     self.clickSection = i
 
     def mousePressEvent(self, event):
@@ -105,13 +107,13 @@ class DragFrame(QFrame):
 
     def is_cross(self, x, y, w, h):
         # координаты x обеих точек корабля 1
-        xA = [self.pos().x(), self.pos().x()+self.width()]
+        xA = [self.pos().x(), self.pos().x() + self.width()]
         # координаты x обеих точек корабля 2
-        xB = [x, x+w]
+        xB = [x, x + w]
         # координаты y обеих точек корабля 1
-        yA = [self.pos().y(), self.pos().y()+self.height()]
+        yA = [self.pos().y(), self.pos().y() + self.height()]
         # координаты y обеих точек корабля 2
-        yB = [y, y+h]
+        yB = [y, y + h]
 
         if max(xB) < min(xA) or max(xA) < min(xB) or max(yA) < min(yB) or max(yB) < min(yA):
             return False
@@ -120,17 +122,17 @@ class DragFrame(QFrame):
 
 class ship_placement(QWidget):
     nextWin = pyqtSignal()
-    nextNetWin = pyqtSignal()
     closed = pyqtSignal()
 
-    def __init__(self, typeGame,x):
+    def __init__(self):
         super(ship_placement, self).__init__()
-        self.type = typeGame
-        self.x = x
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.fields = {"username": field.Field(), "enemy": field.Field()}
         self.UI()
+
+    def transit(self):
+        super(ship_placement, self).__init__()
 
     def UI(self):
         self.labels = [self.ui.label_111, self.ui.label_112, self.ui.label_113, self.ui.label_114]
@@ -142,8 +144,6 @@ class ship_placement(QWidget):
         self.ui.reset_button.clicked.connect(self.returnShips)
         self.ui.start_button.clicked.connect(self.loadGame)
         self.ui.random_button.clicked.connect(self.randomFilling)
-
-
 
     def framesToShips(self):
         '''Преобразует фрейм в класс с функционалом корабля'''
@@ -183,7 +183,7 @@ class ship_placement(QWidget):
         self.ui.field.layout().setSpacing(0)
         for i in range(10):
             for j in range(10):
-                self.ui.field.layout().addWidget(self.cells[i*10+j], i, j)
+                self.ui.field.layout().addWidget(self.cells[i * 10 + j], i, j)
         self.checkCellsSize()
 
     def checkCellsSize(self):
@@ -204,18 +204,18 @@ class ship_placement(QWidget):
     def fixCell(self):
         '''Фиксирует корабль над ячейкой поля.'''
         dragged_ship = self.sender()
-        x = dragged_ship.pos().x()+dragged_ship.labels[dragged_ship.clickSection].geometry().center().x()
-        y = dragged_ship.pos().y()+dragged_ship.labels[dragged_ship.clickSection].geometry().center().y()
-        m = min(self.cells[0].size().width()//2+1, self.cells[0].size().height()//2+1)
+        x = dragged_ship.pos().x() + dragged_ship.labels[dragged_ship.clickSection].geometry().center().x()
+        y = dragged_ship.pos().y() + dragged_ship.labels[dragged_ship.clickSection].geometry().center().y()
+        m = min(self.cells[0].size().width() // 2 + 1, self.cells[0].size().height() // 2 + 1)
 
         pos = None
         for c in self.cells:
-            cx = c.geometry().center().x()+c.parent().pos().x()
-            cy = c.geometry().center().y()+c.parent().pos().y()
-            dist = max(abs(cx-x), abs(cy-y))
+            cx = c.geometry().center().x() + c.parent().pos().x()
+            cy = c.geometry().center().y() + c.parent().pos().y()
+            dist = max(abs(cx - x), abs(cy - y))
             if dist <= m:
                 m = dist
-                pos = c.pos()+c.parent().pos()-dragged_ship.labels[dragged_ship.clickSection].pos()
+                pos = c.pos() + c.parent().pos() - dragged_ship.labels[dragged_ship.clickSection].pos()
 
         if pos is not None and self.shipsIntersection(pos.x(), pos.y(), dragged_ship) is False:
             # устанавлка позиции корабля
@@ -239,27 +239,39 @@ class ship_placement(QWidget):
         return False
 
     def checkOutOfBounds(self, ship):
+        '''Проверка выхода за границы поля'''
         pos = ship.pos() - self.ui.field.pos()
         size = self.cells[0].width()
+        x, y = pos.x() // size, pos.y() // size
         if ship.direction == 0:
-            # первое сланаемое от 0 до 9, второе от 1 до 4
-            shift = pos.x()//size + ship.length - 10
-            if (shift > 0):
-                # проверка на пересечения
-                if self.shipsIntersection(ship.pos().x()-shift*size, ship.pos().y(), ship) is True:
+            # первое слагаемое от 0 до 9, второе от 1 до 4
+            shift = x + ship.length - 10
+            if (shift > 0):  # проверка на выход за правую границу
+                if self.shipsIntersection(ship.pos().x() - shift * size, ship.pos().y(), ship) is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
-                ship.setGeometry(ship.pos().x()-shift*size, ship.pos().y(), ship.width(), ship.height())
+                ship.setGeometry(ship.pos().x() - shift * size, ship.pos().y(), ship.width(), ship.height())
+            elif x < 0:  # проверка на выход за левую границу
+                if self.shipsIntersection(ship.pos().x() - x * size, ship.pos().y(), ship) is True:
+                    ship.onField = 0
+                    ship.restoreGeometry()
+                    return
+                ship.setGeometry(ship.pos().x() - x * size, ship.pos().y(), ship.width(), ship.height())
         else:
-            shift = pos.y()//size + ship.length - 10
-            if (shift > 0):
-                # проверка на пересечения
-                if self.shipsIntersection(ship.pos().x(), ship.pos().y()-shift*size, ship) is True:
+            shift = pos.y() // size + ship.length - 10
+            if (shift > 0):  # проверка на выход за верхнюю границу
+                if self.shipsIntersection(ship.pos().x(), ship.pos().y() - shift * size, ship) is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
-                ship.setGeometry(ship.pos().x(), ship.pos().y()-shift*size, ship.width(), ship.height())
+                ship.setGeometry(ship.pos().x(), ship.pos().y() - shift * size, ship.width(), ship.height())
+            elif y < 0:  # проверка на выход за верхнюю границу
+                if self.shipsIntersection(ship.pos().x(), ship.pos().y() - y * size, ship) is True:
+                    ship.onField = 0
+                    ship.restoreGeometry()
+                    return
+                ship.setGeometry(ship.pos().x(), ship.pos().y() - y * size, ship.width(), ship.height())
 
     def updateCounts(self):
         j, k = 0, 0
@@ -267,8 +279,8 @@ class ship_placement(QWidget):
             n = 0
             for i in range(len(ship)):
                 n += ship[i].onField
-            k += len(ship)-n
-            self.labels[j].setText('x'+str(len(ship)-n))
+            k += len(ship) - n
+            self.labels[j].setText('x' + str(len(ship) - n))
             j += 1
         if k == 0:
             self.ui.start_button.setEnabled(True)
@@ -279,39 +291,40 @@ class ship_placement(QWidget):
         '''Задание относительного положения элементов'''
         self.returnShips()
         # поле
-        fieldSize = min(self.width()*4//10, self.height()*8//10)
+        fieldSize = min(self.width() * 4 // 10, self.height() * 8 // 10)
         fieldSize -= fieldSize % 10
-        x = (self.width()//2-fieldSize)//2
-        y = (self.height()-fieldSize)//2
+        x = (self.width() // 2 - fieldSize) // 2
+        y = (self.height() - fieldSize) // 2
         self.ui.field.setGeometry(x, y, fieldSize, fieldSize)
         self.checkCellsSize()
         # корабли
-        x = self.width()*6.5//10
+        x = self.width() * 6.5 // 10
         j = 0.0
         for ship in self.ships:
             for i in range(len(ship)):
-                ship[i].setGeometry(x, y+(j*fieldSize)//10, ship[i].length*fieldSize//10, fieldSize//10)
+                ship[i].setGeometry(x, y + (j * fieldSize) // 10, ship[i].length * fieldSize // 10, fieldSize // 10)
                 ship[i].startGeometry = ship[i].geometry()
             j += 1.5
         # лейблы
-        x = self.width()*6//10
-        y = (self.height()-fieldSize)//2
+        x = self.width() * 6 // 10
+        y = (self.height() - fieldSize) // 2
         j = 0.0
         for lbl in self.labels:
-            lbl.setGeometry(x, y+(j*fieldSize)//10, fieldSize//10, fieldSize//10)
+            lbl.setGeometry(x, y + (j * fieldSize) // 10, fieldSize // 10, fieldSize // 10)
             font = lbl.font()
-            font.setPixelSize(fieldSize//10)
+            font.setPixelSize(fieldSize // 10)
             lbl.setFont(font)
             j += 1.5
         # кнопки
-        x = self.width()*5.5//10
+        x = self.width() * 5.5 // 10
         h = 1.5
-        y = (self.height()-fieldSize)//2+fieldSize*(10-h)//10
+        y = (self.height() - fieldSize) // 2 + fieldSize * (10 - h) // 10
         kw = 1.7
-        w = self.width()*kw//10
-        self.ui.random_button.setGeometry(self.width()*7.5//10 - w//2, y - (h+0.75)*fieldSize//10, w, fieldSize*h//10)
-        self.ui.reset_button.setGeometry(x, y, w, fieldSize*h//10)
-        self.ui.start_button.setGeometry(x+self.width()*(4-kw)//10, y, w, fieldSize*h//10)
+        w = self.width() * kw // 10
+        self.ui.random_button.setGeometry(self.width() * 7.5 // 10 - w // 2, y - (h + 0.75) * fieldSize // 10, w,
+                                          fieldSize * h // 10)
+        self.ui.reset_button.setGeometry(x, y, w, fieldSize * h // 10)
+        self.ui.start_button.setGeometry(x + self.width() * (4 - kw) // 10, y, w, fieldSize * h // 10)
 
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
@@ -323,12 +336,7 @@ class ship_placement(QWidget):
         # self.fields['username'].prints()
         if self.fields['username'].CheckPositionOfShips() is True:
             print('Корабли расставлены верно')
-            print(self.x)
-            #
-            if self.type == 1:
-                self.nextWin.emit()
-            else:
-                self.nextNetWin.emit()
+            self.nextWin.emit()
             self.close()
         else:
             print('Корабли расставлены НЕ верно')
@@ -341,9 +349,9 @@ class ship_placement(QWidget):
         for ship in self.ships:
             for s in ship:
                 pos = s.pos() - fp
-                x, y = pos.x()//size, pos.y()//size
+                x, y = pos.x() // size, pos.y() // size
                 for i in range(s.length):
-                    self.fields['username'].IndicateCell(y+s.direction*i, x+(1-s.direction)*i)
+                    self.fields['username'].IndicateCell(y + s.direction * i, x + (1 - s.direction) * i)
 
     def randomFilling(self):
         self.fields['username'].clear()
@@ -352,14 +360,14 @@ class ship_placement(QWidget):
         size = self.cells[0].width()
         fp = self.ui.field.pos()
         for lens in range(3, -1, -1):
-            for k in range(lens-4, 0):
+            for k in range(lens - 4, 0):
                 flag = True
                 row1, col1, row2, col2 = 0, 0, 0, 0
                 while flag is True:
                     flag = False
                     orientation = random.randint(0, 100) % 2
-                    row1 = random.randint(0, 100) % (10-lens*orientation)+1
-                    col1 = random.randint(0, 100) % (10-lens*(1-orientation))+1
+                    row1 = random.randint(0, 100) % (10 - lens * orientation) + 1
+                    col1 = random.randint(0, 100) % (10 - lens * (1 - orientation)) + 1
                     if orientation == 0:
                         col2 = col1 + lens
                         row2 = row1
@@ -367,22 +375,23 @@ class ship_placement(QWidget):
                         row2 = row1 + lens
                         col2 = col1
                     # проверка, что корабль не пересекается с уже заданными
-                    for i in range(row1-1, row2+2):
-                        for j in range(col1-1, col2+2):
+                    for i in range(row1 - 1, row2 + 2):
+                        for j in range(col1 - 1, col2 + 2):
                             if temp.f[i][j] is True:
                                 flag = True
-                for i in range(row1, row2+1):
-                    for j in range(col1, col2+1):
+                for i in range(row1, row2 + 1):
+                    for j in range(col1, col2 + 1):
                         temp.f[i][j] = True
                 row1, col1 = row1 - 1, col1 - 1
-                self.ships[lens][k].setGeometry(fp.x()+col1*size, fp.y()+row1*size, self.ships[lens][k].width(), self.ships[lens][k].height())
+                self.ships[lens][k].setGeometry(fp.x() + col1 * size, fp.y() + row1 * size, self.ships[lens][k].width(),
+                                                self.ships[lens][k].height())
                 self.ships[lens][k].onField = True
                 if orientation == 1:
                     self.ships[lens][k].changeDirection()
         for i in range(1, 11):
             for j in range(1, 11):
                 if temp.f[i][j] is True:
-                    self.fields['username'].IndicateCell((i-1), (j-1))
+                    self.fields['username'].IndicateCell((i - 1), (j - 1))
         self.fields['username'].prints()
         self.ui.start_button.setEnabled(True)
         self.updateCounts()
