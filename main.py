@@ -2,60 +2,11 @@ from placement import ship_placement
 from game import game_field
 from view.form import Ui_Form
 
+import os
 import sys
-import field
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtCore import pyqtSignal
-
-'''
-def playerTurn(username, enemy):
-    print(username)
-    print("Выберите точку удара: ")
-    shots[username].prints()
-    msg = input().split(" ")
-    shots[username].IndicateCell(int(msg[0]), int(msg[1]))
-    strickenShips = fields[enemy].GetStrickenShips(msg, shots[username])
-    # print("Ваше поле")
-    # fields[username].prints()
-    print("Поле соперника")
-    shots[username].prints()
-    if strickenShips.Hitted != "":
-        availableShips = fields[enemy].GetAvailableShips(shots[username])
-        print(availableShips)
-        turn[enemy] = False
-        turn[username] = True
-        if availableShips == field.Ships(0, 0, 0, 0):
-            print("Победил "+username)
-            return False
-    else:
-        turn[enemy] = True
-        turn[username] = False
-        print("Промазал")
-    print()
-    return True
-
-
-def Game():
-    username = "username"
-    RandomFieldFilling(username)
-    enemy = "enemy"
-    RandomFieldFilling(enemy)
-    stillPlaying = True
-    print("Поле игрока")
-    fields[username].prints()
-    print("Поле соперника")
-    fields[enemy].prints()
-
-    # Записали попадание в shots, после получили структуру
-    # сбитых и прилежащих к сбитым ячеек, отправили ее для рендера
-    # у себя, изменили ее для последующего рендера у 2-ого игрока
-    # и записали эти изменения на его имя
-    while stillPlaying is True:
-        if turn[enemy] is True:
-            stillPlaying = playerTurn(enemy, username)
-        else:
-            stillPlaying = playerTurn(username, enemy)
-'''
+import resources_rc
+from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QComboBox
+from PyQt5.QtCore import QRect, pyqtSignal, QFile, QTextStream
 
 
 class MainApp(QApplication):
@@ -63,29 +14,57 @@ class MainApp(QApplication):
         super().__init__(argv)
 
         self.start = startWindow()
+        self.start.theme_combo.activated[str].connect(self.setTheme)
+        self.setTheme('Dark')
         self.start.show()
 
         self.placement = ship_placement()
         self.game = game_field(self.placement.fields)
 
-        self.placement.closed.connect(self.start.show)
+        self.start.nextWin.connect(self.placement.show)
+        self.placement.back.connect(self.start.show)
+        self.placement.nextWin.connect(self.game.show)
         self.game.closed.connect(self.start.show)
         self.game.closed.connect(self.newGameChanges)
-        self.start.nextWin.connect(self.placement.show)
-        self.placement.nextWin.connect(self.game.show)
+
+        self.start.resizeSygnal.connect(self.resizeWindows)
+    
+    def resizeWindows(self, g):
+        self.start.setGeometry(g)
+        self.placement.setGeometry(g)
+        self.game.setGeometry(g)
 
     def newGameChanges(self):
         self.placement.returnShips()
         self.game.resetFields()
+    
+    def setTheme(self, theme):
+        if os.path.exists(theme):
+            file = QFile(theme)
+        else:
+            file = QFile(':/qss/'+theme+'.qss')
+        file.open(QFile.ReadOnly | QFile.Text)
+        style = QTextStream(file)
+        self.setStyleSheet(style.readAll())
 
 
 class startWindow(QWidget):
     nextWin = pyqtSignal()
+    resizeSygnal = pyqtSignal(QRect)
+    theme = pyqtSignal(str)
 
     def __init__(self):
         super(startWindow, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+
+        self.theme_combo = QComboBox(self)
+        # При правке списка ниже необходимо изменять и файл "resources.qrc"
+        # А затем выполнять "pyrcc5 resources.qrc -o resources_rc.py"
+        self.theme_combo.addItems(['AMOLED', 'aqua', 'ConsoleStyle', 'Dark',
+                                   'ElegantDark', 'MacOS', 'ManjaroMix',
+                                   'MaterialDark', 'NeonButtons', 'Ubuntu'])
+        self.theme_combo.setCurrentIndex(3)
 
         self.ui.pushButton.clicked.connect(self.nextWindow)
 
@@ -97,11 +76,16 @@ class startWindow(QWidget):
         x = self.width()//2 - self.ui.pushButton.width()//2
         y = self.height()//2 - self.ui.pushButton.height()//2
         self.ui.pushButton.setGeometry(x, y, self.ui.pushButton.width(), self.ui.pushButton.height())
+        w, h = self.theme_combo.width(), self.theme_combo.height()
+        x = self.width()*0.9 - w//2
+        y = self.height()*0.9 - h//2
+        self.theme_combo.setGeometry(x, y, w, h)
 
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана.'''
         self.positioning()
-        return super(startWindow, self).resizeEvent(event)
+        self.resizeSygnal.emit(self.geometry())
+        return super().resizeEvent(event)
 
 
 if __name__ == '__main__':
