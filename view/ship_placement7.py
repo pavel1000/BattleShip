@@ -125,7 +125,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.field.sizePolicy().hasHeightForWidth())
         self.field.setSizePolicy(sizePolicy)
         self.field.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.field.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.field.setFrameShadow(QtWidgets.QFrame.Plain)
         self.field.setLineWidth(0)
         self.field.setObjectName("field")
         self.label = QtWidgets.QLabel(self.field)

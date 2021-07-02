@@ -77,8 +77,8 @@ class startWindow(QWidget):
         y = self.height()//2 - self.ui.pushButton.height()//2
         self.ui.pushButton.setGeometry(x, y, self.ui.pushButton.width(), self.ui.pushButton.height())
         w, h = self.theme_combo.width(), self.theme_combo.height()
-        x = self.width()*0.9 - w//2
-        y = self.height()*0.9 - h//2
+        x = self.width()*9//10 - w//2
+        y = self.height()*9//10 - h//2
         self.theme_combo.setGeometry(x, y, w, h)
 
     def resizeEvent(self, event):

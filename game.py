@@ -61,6 +61,8 @@ class game_field(QWidget):
         field.setLineWidth(0)
         field.layout().setContentsMargins(QMargins(0, 0, 0, 0))
         field.layout().setSpacing(0)
+        field.setFrameShape(QFrame.Shape.Box)
+        field.setLineWidth(2)
         for i in range(10):
             for j in range(10):
                 field.layout().addWidget(cells[i*10+j], i, j)
@@ -90,6 +92,7 @@ class game_field(QWidget):
         # поле 1
         fieldSize = min(self.width()*4//10, self.height()*8//10)
         fieldSize -= fieldSize % 10
+        fieldSize += self.ui.field.lineWidth()*2
         x = (self.width()//2-fieldSize)//2
         y = (self.height()-fieldSize)//2
         self.ui.field.setGeometry(x, y, fieldSize, fieldSize)

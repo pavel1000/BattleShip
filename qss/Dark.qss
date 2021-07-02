@@ -41,7 +41,7 @@ QPushButton:disabled, QToolButton:disabled, QCommandLinkButton:disabled{
     color: #616161;
     background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 #dce7eb, stop:0.5 #e0e8eb, stop:1 #dee7ec);
 }
-QLabel, QCheckBox, QRadioButton {
+QLabel, QCheckBox, QRadioButton, QFrame {
     color: #fefefe;
 }
 QComboBox {

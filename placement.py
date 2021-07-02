@@ -182,6 +182,8 @@ class ship_placement(QWidget):
         self.ui.field.setLineWidth(0)
         self.ui.field.layout().setContentsMargins(QMargins(0, 0, 0, 0))
         self.ui.field.layout().setSpacing(0)
+        self.ui.field.setFrameShape(QFrame.Shape.Box)
+        self.ui.field.setLineWidth(2)
         for i in range(10):
             for j in range(10):
                 self.ui.field.layout().addWidget(self.cells[i*10+j], i, j)
@@ -296,6 +298,7 @@ class ship_placement(QWidget):
         # поле
         fieldSize = min(self.width()*4//10, self.height()*8//10)
         fieldSize -= fieldSize % 10
+        fieldSize += self.ui.field.lineWidth()*2
         x = (self.width()//2-fieldSize)//2
         y = (self.height()-fieldSize)//2
         self.ui.field.setGeometry(x, y, fieldSize, fieldSize)
@@ -391,7 +394,7 @@ class ship_placement(QWidget):
                     for j in range(col1, col2+1):
                         temp.f[i][j] = True
                 row1, col1 = row1 - 1, col1 - 1
-                self.ships[lens][k].setGeometry(fp.x()+col1*size, fp.y()+row1*size, self.ships[lens][k].width(), self.ships[lens][k].height())
+                self.ships[lens][k].setGeometry(fp.x()+col1*size+self.ui.field.lineWidth(), fp.y()+row1*size+self.ui.field.lineWidth(), self.ships[lens][k].width(), self.ships[lens][k].height())
                 self.ships[lens][k].onField = True
                 if orientation == 1:
                     self.ships[lens][k].changeDirection()
