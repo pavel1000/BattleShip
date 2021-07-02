@@ -1,7 +1,24 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
-    <file>images/square.png</file>
-    <file>images/shape.png</file>
-    <file>images/cross.png</file>
+    <file>images/cross_gradient.png</file>
+    <file>images/cross_rounded_black.png</file>
+    <file>images/cross_rounded_blue.png</file>
+    <file>images/cross_rounded_purple.png</file>
+    <file>images/square_purple.png</file>
+    <file>images/square_right_purple.png</file>
+    <file>images/square_wrong_purple.png</file>
+    <file>images/square_rounded_purple.png</file>
+    <file>images/square_rounded_right_purple.png</file>    
+    <file>images/square_rounded_wrong_purple.png</file>
+    <file>qss/AMOLED.qss</file>
+    <file>qss/aqua.qss</file>
+    <file>qss/ConsoleStyle.qss</file>
+    <file>qss/Dark.qss</file>
+    <file>qss/ElegantDark.qss</file>
+    <file>qss/MacOS.qss</file>
+    <file>qss/ManjaroMix.qss</file>
+    <file>qss/MaterialDark.qss</file>
+    <file>qss/NeonButtons.qss</file>
+    <file>qss/Ubuntu.qss</file>
 </qresource>
 </RCC>
