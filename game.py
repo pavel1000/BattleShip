@@ -1,6 +1,6 @@
 import random
 from PyQt5.QtWidgets import QWidget, QLabel, QFrame, QGridLayout, QMessageBox
-from PyQt5.QtCore import Qt, QMargins, pyqtSignal
+from PyQt5.QtCore import Qt, QMargins, pyqtSignal, QRect
 from PyQt5.QtGui import QPixmap
 
 import field
@@ -20,6 +20,7 @@ def RandomFieldFilling(field2):
 
 class game_field(QWidget):
     closed = pyqtSignal()
+    resizeSygnal = pyqtSignal(QRect)
 
     def __init__(self, fields):
         super(game_field, self).__init__()
@@ -57,6 +58,7 @@ class game_field(QWidget):
         # reset shots
         for s in self.shots.values():
             s.clear()
+        self.fields['username'].clear()
         RandomFieldFilling(self.fields['enemy'])
         # TODO: Надо будет добавить рандом для
         # выбора очередности хода в "сетевой игре"
@@ -115,6 +117,14 @@ class game_field(QWidget):
         '''Подгоняет размер элементов под размер экрана'''
         self.positioning()
         return super(game_field, self).resizeEvent(event)
+    
+    def paintEvent(self, event):
+        self.resizeSygnal.emit(self.geometry())
+        return super().paintEvent(event)
+    
+    def closeEvent(self, event):
+        self.resetFields()
+        return super().closeEvent(event)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton and self.turn['username'] is True:

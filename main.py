@@ -30,9 +30,10 @@ class MainApp(QApplication):
         self.placement.back.connect(self.start.show)
         self.placement.nextWin.connect(self.game.show)
         self.game.closed.connect(self.start.show)
-        self.game.closed.connect(self.newGameChanges)
 
         self.start.resizeSygnal.connect(self.resizeWindows)
+        self.placement.resizeSygnal.connect(self.resizeWindows)
+        self.game.resizeSygnal.connect(self.resizeWindows)
 
         self.net = net_window()
         self.net_placement = net_ship_placement(self.start.type, self.net.ip)
@@ -46,7 +47,6 @@ class MainApp(QApplication):
         self.net_placement.back.connect(self.start.show)
         self.net_placement.nextWin.connect(self.net_game.show)
         self.net_game.closed.connect(self.start.show)
-        self.net_game.closed.connect(self.newGameChanges)
     
     def resizeWindows(self, g):
         self.start.setGeometry(g)
@@ -55,10 +55,6 @@ class MainApp(QApplication):
         self.net.setGeometry(g)
         self.net_placement.setGeometry(g)
         self.net_game.setGeometry(g)
-
-    def newGameChanges(self):
-        self.placement.returnShips()
-        self.game.resetFields()
     
     def setTheme(self, theme):
         if os.path.exists(theme):
@@ -112,10 +108,13 @@ class startWindow(QWidget):
         y = self.height()*9//10 - h//2
         self.theme_combo.setGeometry(x, y, w, h)
 
+    def paintEvent(self, event):
+        self.resizeSygnal.emit(self.geometry())
+        return super().paintEvent(event)
+
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана.'''
         self.positioning()
-        self.resizeSygnal.emit(self.geometry())
         return super().resizeEvent(event)
 
 

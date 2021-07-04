@@ -1,6 +1,6 @@
 import random
 from PyQt5.QtWidgets import QFrame, QLabel, QGridLayout, QWidget
-from PyQt5.QtCore import Qt, pyqtSignal, QMargins
+from PyQt5.QtCore import Qt, pyqtSignal, QMargins, QRect
 
 import field
 from view.ship_placement7 import Ui_Form
@@ -122,6 +122,7 @@ class DragFrame(QFrame):
 class ship_placement(QWidget):
     nextWin = pyqtSignal()
     back = pyqtSignal()
+    resizeSygnal = pyqtSignal(QRect)
 
     def __init__(self):
         super(ship_placement, self).__init__()
@@ -175,7 +176,6 @@ class ship_placement(QWidget):
         for ship in self.ships:
             for s in ship:
                 s.restoreGeometry()
-        self.fields['username'].clear()
         self.updateCounts()
 
     def fieldAlignment(self):
@@ -340,6 +340,14 @@ class ship_placement(QWidget):
         '''Подгоняет размер элементов под размер экрана'''
         self.positioning()
         return super(ship_placement, self).resizeEvent(event)
+    
+    def closeWin(self):
+        self.back.emit()
+        self.close()
+    
+    def paintEvent(self, event):
+        self.resizeSygnal.emit(self.geometry())
+        return super().paintEvent(event)
 
     def loadGame(self):
         self.initField()
@@ -347,14 +355,11 @@ class ship_placement(QWidget):
         if self.fields['username'].CheckPositionOfShips() is True:
             print('Корабли расставлены верно')
             self.nextWin.emit()
+            self.returnShips()
             self.close()
         else:
             print('Корабли расставлены НЕ верно')
             self.ui.start_button.setDisabled(True)
-    
-    def closeWin(self):
-        self.back.emit()
-        self.close()
 
     def initField(self):
         self.fields['username'].clear()
