@@ -44,7 +44,7 @@ class net_game_field(game_field):
         self.timerTurn = QTimer()
         self.timerTurn.timeout.connect(
             lambda: self.enemyTurn("enemy", 'username'))
-        self.timerTurn.start(100)
+        self.timerTurn.start(1000)
         return super(net_game_field, self).showEvent(event)
 
     def mousePressEvent(self, event):
@@ -100,6 +100,7 @@ class net_game_field(game_field):
                         self.turns[1] = True
                         self.connect[0].sendall("turn".encode())
         elif self.turns[0] is False:
+            self.timerTurn.stop()
             self.enemyTurn("enemy", 'username')
         # self.transit2(event)
 
