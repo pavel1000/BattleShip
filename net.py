@@ -11,6 +11,7 @@ class net_window(QWidget):
     
     nextNetWin = pyqtSignal()
     nextNetServerWin = pyqtSignal()
+    back = pyqtSignal()
     
     def __init__(self):
         super(net_window, self).__init__()
@@ -19,6 +20,7 @@ class net_window(QWidget):
         self.ip = [""]
         self.ui.pushButton.clicked.connect(self.nextNetWindow)
         self.ui.pushButton_2.clicked.connect(self.nextNetServerWindow)
+        self.ui.pushButton_3.clicked.connect(self.closeWin)
 
     def nextNetWindow(self):
         print("Ожидайте подключения")
@@ -33,12 +35,17 @@ class net_window(QWidget):
         self.nextNetServerWin.emit()
         self.close()
 
-    def positioning(self):
-       """ x = self.width()//2 - self.ui.newSoloGame.width()//2
-        y = self.height()//2 - self.ui.newSoloGame.height()//2
-        self.ui.newSoloGame.setGeometry(x, y, self.ui.newSoloGame.width(), self.ui.newSoloGame.height())
-        self.ui.newNetGame.setGeometry(x+100, y, self.ui.newNetGame.width(), self.ui.newNetGame.height())"""
+    def closeWin(self):
+        self.back.emit()
+        self.close()
 
+    def positioning(self):
+        widthBtn=self.ui.pushButton_2.width()//2
+        x = self.width()//4
+        y = self.height()*3//5 - self.ui.pushButton_2.height()//2
+        self.ui.pushButton_3.setGeometry(x-widthBtn, y, self.ui.pushButton_2.width(), self.ui.pushButton_2.height())
+        self.ui.pushButton.setGeometry(2*x-widthBtn, y, self.ui.pushButton_2.width(), self.ui.pushButton_2.height())
+        self.ui.pushButton_2.setGeometry(3*x-widthBtn , y, self.ui.pushButton_2.width(), self.ui.pushButton_2.height())
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана.'''
         self.positioning()
