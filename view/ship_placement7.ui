@@ -56,7 +56,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -121,7 +121,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -134,7 +134,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -147,7 +147,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -199,7 +199,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -212,7 +212,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -264,7 +264,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -277,7 +277,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -326,7 +326,7 @@
     <enum>QFrame::NoFrame</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Plain</enum>
    </property>
    <property name="lineWidth">
     <number>0</number>
@@ -2290,13 +2290,13 @@
     <item>
      <widget class="QLabel" name="label_107">
       <property name="lineWidth">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2306,13 +2306,13 @@
     <item>
      <widget class="QLabel" name="label_108">
       <property name="lineWidth">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2322,13 +2322,13 @@
     <item>
      <widget class="QLabel" name="label_109">
       <property name="lineWidth">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2338,13 +2338,13 @@
     <item>
      <widget class="QLabel" name="label_110">
       <property name="lineWidth">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="text">
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2393,7 +2393,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2406,7 +2406,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2419,7 +2419,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2505,7 +2505,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2563,7 +2563,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2639,7 +2639,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2694,7 +2694,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2707,7 +2707,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap resource="../resources.qrc">:/images/shape.png</pixmap>
+       <pixmap resource="../resources.qrc">:/images/square_purple.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>true</bool>
@@ -2719,14 +2719,27 @@
   <widget class="QPushButton" name="random_button">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>318</y>
+     <x>760</x>
+     <y>320</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Автоматическая расстановка</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="back_button">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>40</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Назад</string>
    </property>
   </widget>
  </widget>

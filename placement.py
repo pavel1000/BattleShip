@@ -28,6 +28,7 @@ class DragFrame(QFrame):
         self.layout().setSpacing(0)
         for i in range(len(self.labels)):
             self.layout().addWidget(self.labels[i], 0, i)
+        f.deleteLater()
 
         self.startGeometry = self.geometry()
 
@@ -45,14 +46,12 @@ class DragFrame(QFrame):
         if self.direction == 0:
             dist = pos.x()
             for i in range(len(self.labels)):
-                if dist >= self.labels[i].pos().x() and dist <= self.labels[i].pos().x() + self.labels[
-                    i].size().width():
+                if dist >= self.labels[i].pos().x() and dist <= self.labels[i].pos().x() + self.labels[i].size().width():
                     self.clickSection = i
         else:
             dist = pos.y()
             for i in range(len(self.labels)):
-                if dist >= self.labels[i].pos().y() and dist <= self.labels[i].pos().y() + self.labels[
-                    i].size().height():
+                if dist >= self.labels[i].pos().y() and dist <= self.labels[i].pos().y() + self.labels[i].size().height():
                     self.clickSection = i
 
     def mousePressEvent(self, event):
@@ -122,7 +121,7 @@ class DragFrame(QFrame):
 
 class ship_placement(QWidget):
     nextWin = pyqtSignal()
-    closed = pyqtSignal()
+    back = pyqtSignal()
 
     def __init__(self):
         super(ship_placement, self).__init__()
@@ -140,6 +139,7 @@ class ship_placement(QWidget):
         self.framesToShips()
         self.fieldAlignment()
         self.ui.start_button.setDisabled(True)
+        self.ui.back_button.clicked.connect(self.closeWin)
 
         self.ui.reset_button.clicked.connect(self.returnShips)
         self.ui.start_button.clicked.connect(self.loadGame)
@@ -164,8 +164,12 @@ class ship_placement(QWidget):
         # присоединяем события "drop'a" корабля
         self.ships = [self.singleDecker, self.twoDecker, self.threeDecker, self.fourDecker]
         for ship in self.ships:
-            for i in range(len(ship)):
-                ship[i].fix_pos.connect(self.fixCell)
+            for s in ship:
+                s.fix_pos.connect(self.fixCell)
+                lbls = s.findChildren(QLabel)
+                for lb in lbls:
+                    lb.setFrameShape(QFrame.Shape.Box)
+                    lb.setLineWidth(2)
 
     def returnShips(self):
         for ship in self.ships:
@@ -181,9 +185,13 @@ class ship_placement(QWidget):
         self.ui.field.setLineWidth(0)
         self.ui.field.layout().setContentsMargins(QMargins(0, 0, 0, 0))
         self.ui.field.layout().setSpacing(0)
+        self.ui.field.setFrameShape(QFrame.Shape.Box)
+        self.ui.field.setLineWidth(2)
         for i in range(10):
             for j in range(10):
-                self.ui.field.layout().addWidget(self.cells[i * 10 + j], i, j)
+                self.ui.field.layout().addWidget(self.cells[i*10+j], i, j)
+                self.cells[i*10+j].setFrameShape(QFrame.Shape.Box)
+                self.cells[i*10+j].setLineWidth(2)
         self.checkCellsSize()
 
     def checkCellsSize(self):
@@ -293,6 +301,7 @@ class ship_placement(QWidget):
         # поле
         fieldSize = min(self.width() * 4 // 10, self.height() * 8 // 10)
         fieldSize -= fieldSize % 10
+        fieldSize += self.ui.field.lineWidth() * 2
         x = (self.width() // 2 - fieldSize) // 2
         y = (self.height() - fieldSize) // 2
         self.ui.field.setGeometry(x, y, fieldSize, fieldSize)
@@ -319,12 +328,13 @@ class ship_placement(QWidget):
         x = self.width() * 5.5 // 10
         h = 1.5
         y = (self.height() - fieldSize) // 2 + fieldSize * (10 - h) // 10
-        kw = 1.7
-        w = self.width() * kw // 10
-        self.ui.random_button.setGeometry(self.width() * 7.5 // 10 - w // 2, y - (h + 0.75) * fieldSize // 10, w,
-                                          fieldSize * h // 10)
+        kw = 1.5
+        w = self.width()*kw//10
+        self.ui.random_button.setGeometry(self.width() * 7.5 // 10 - w, y - (h + 0.75) * fieldSize // 10, w * 2, fieldSize * h // 10)
         self.ui.reset_button.setGeometry(x, y, w, fieldSize * h // 10)
         self.ui.start_button.setGeometry(x + self.width() * (4 - kw) // 10, y, w, fieldSize * h // 10)
+        y = (self.height() - fieldSize) // 4
+        self.ui.back_button.setGeometry(x + self.width() * (4 - kw) // 10 + self.ui.start_button.width() // 2, y, w // 2, fieldSize * h // 20)
 
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
@@ -341,6 +351,10 @@ class ship_placement(QWidget):
         else:
             print('Корабли расставлены НЕ верно')
             self.ui.start_button.setDisabled(True)
+    
+    def closeWin(self):
+        self.back.emit()
+        self.close()
 
     def initField(self):
         self.fields['username'].clear()
@@ -383,8 +397,7 @@ class ship_placement(QWidget):
                     for j in range(col1, col2 + 1):
                         temp.f[i][j] = True
                 row1, col1 = row1 - 1, col1 - 1
-                self.ships[lens][k].setGeometry(fp.x() + col1 * size, fp.y() + row1 * size, self.ships[lens][k].width(),
-                                                self.ships[lens][k].height())
+                self.ships[lens][k].setGeometry(fp.x()+col1*size+self.ui.field.lineWidth(), fp.y()+row1*size+self.ui.field.lineWidth(), self.ships[lens][k].width(), self.ships[lens][k].height())
                 self.ships[lens][k].onField = True
                 if orientation == 1:
                     self.ships[lens][k].changeDirection()
