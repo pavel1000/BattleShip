@@ -34,6 +34,12 @@ class net_game_field(game_field):
         else:
             self.ui.labelTurn.setText(f"Ждите хода")
 
+    def positioning(self):
+        super(net_game_field, self).positioning()
+        x = self.width() // 2 - self.ui.labelTurn.width() // 2
+        y = self.height() // 11 - self.ui.labelTurn.height() // 2
+        self.ui.labelTurn.setGeometry(x, y, self.ui.labelTurn.width(), self.ui.labelTurn.height())
+
 
     def showEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
