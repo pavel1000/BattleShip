@@ -44,7 +44,7 @@ class MainApp(QApplication):
         # self.net.pushBack(self.start.show)
 
         self.start.nextNetWin.connect(self.net.show)
-        self.net_placement.back.connect(self.start.show)
+        self.net_placement.back.connect(self.net.show)
         self.net_placement.nextWin.connect(self.net_game.show)
         self.net_game.closed.connect(self.start.show)
     

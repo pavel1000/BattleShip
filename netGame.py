@@ -33,7 +33,7 @@ class net_game_field(game_field):
             self.ui.labelTurn.setText(f"Ваш ход")
         else:
             self.ui.labelTurn.setText(f"Ждите хода")
-            self.ui.label
+
 
     def showEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
@@ -81,7 +81,7 @@ class net_game_field(game_field):
 
                     if hitted is True:
                         print("Где проблема, если попал?")
-                        cell.setPixmap(QPixmap(':/images/shape.png'))
+                        cell.setPixmap(QPixmap(':/images/square_purple.png'))
                         # отмечаем ячейки, в которые можно не стрелять
                         livingShips = self.fields['username'].GetAvailableShips(
                             self.shots['username'])
@@ -94,7 +94,7 @@ class net_game_field(game_field):
                             self.closed.emit()
                     else:
                         print("Где проблема, если НЕ попал?")
-                        cell.setPixmap(QPixmap(':/images/cross.png'))
+                        cell.setPixmap(QPixmap(':/images/cross_gradient.png'))
                         # отмечаем ячейку
                         self.turns[0] = False
                         self.turns[1] = True
@@ -145,7 +145,7 @@ class net_game_field(game_field):
                         y, x, self.shots[username])
                     if hitted is True:
                         print("ПОПАЛCЯ!!!!!!!!!!!!!")
-                        cell.setPixmap(QPixmap(':/images/shape.png'))
+                        cell.setPixmap(QPixmap(':/images/square_purple.png'))
                         # отмечаем ячейки, в которые можно не стрелять
                         self.connect[0].sendall("0".encode())
                         self.turns[0] = False
@@ -163,7 +163,7 @@ class net_game_field(game_field):
                         return
 
                     else:
-                        cell.setPixmap(QPixmap(':/images/cross.png'))
+                        cell.setPixmap(QPixmap(':/images/cross_gradient.png'))
                         self.connect[0].sendall("1".encode())
                         self.turns[0] = True
         self.timerTurn.start()
