@@ -1,8 +1,11 @@
+from os import truncate
 import random
 from PyQt5.QtWidgets import QFrame, QLabel, QGridLayout, QWidget
 from PyQt5.QtCore import Qt, pyqtSignal, QMargins, QRect
+from PyQt5.QtGui import QPixmap
 
 import field
+import resources_rc
 from view.ship_placement7 import Ui_Form
 
 
@@ -18,6 +21,7 @@ class DragFrame(QFrame):
         self.direction = 0  # 0 - horizontal
         self.labels = f.findChildren(QLabel)
         self.length = len(self.labels)
+        self.isTouch = False
 
         # set position and layout
         self.setGeometry(f.x(), f.y(), f.height() * self.length, f.height())
@@ -34,6 +38,10 @@ class DragFrame(QFrame):
 
     def restoreGeometry(self):
         self.setGeometry(self.startGeometry)
+        self.isTouch = False
+        lbls = self.findChildren(QLabel)
+        for lb in lbls:
+            lb.setStyleSheet('color: ;')
         if self.direction == 1:
             for i in range(len(self.labels)):
                 self.layout().removeWidget(self.labels[i])
@@ -61,7 +69,7 @@ class DragFrame(QFrame):
             self.__mousePressPos = event.globalPos()
             self.__mouseMovePos = event.globalPos()
             self.saveSection(self.mapFromGlobal(self.__mousePressPos))
-        super(DragFrame, self).mousePressEvent(event)
+        super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
         if event.buttons() == Qt.LeftButton:
@@ -72,7 +80,7 @@ class DragFrame(QFrame):
             newPos = self.mapFromGlobal(currPos + diff)
             self.move(newPos)
             self.__mouseMovePos = globalPos
-        super(DragFrame, self).mouseMoveEvent(event)
+        super().mouseMoveEvent(event)
 
     def mouseReleaseEvent(self, event):
         if self.__mousePressPos is not None:
@@ -90,7 +98,7 @@ class DragFrame(QFrame):
                 if self.onField == 1:
                     self.changeDirection()
                     self.fix_pos.emit()
-        super(DragFrame, self).mouseReleaseEvent(event)
+        super().mouseReleaseEvent(event)
 
     def changeDirection(self):
         for i in range(len(self.labels)):
@@ -105,6 +113,7 @@ class DragFrame(QFrame):
         self.direction = 1 - self.direction
 
     def is_cross(self, x, y, w, h):
+        '''Первое возвращаемое значение - пересечение, второе - касание.'''
         # координаты x обеих точек корабля 1
         xA = [self.pos().x(), self.pos().x() + self.width()]
         # координаты x обеих точек корабля 2
@@ -113,10 +122,11 @@ class DragFrame(QFrame):
         yA = [self.pos().y(), self.pos().y() + self.height()]
         # координаты y обеих точек корабля 2
         yB = [y, y + h]
-
-        if max(xB) < min(xA) or max(xA) < min(xB) or max(yA) < min(yB) or max(yB) < min(yA):
-            return False
-        return True
+        if max(xB) <= min(xA) or max(xA) <= min(xB) or max(yA) <= min(yB) or max(yB) <= min(yA):
+            if max(xB) < min(xA) or max(xA) < min(xB) or max(yA) < min(yB) or max(yB) < min(yA):
+                return False, False
+            return False, True
+        return True, False
 
 
 class ship_placement(QWidget):
@@ -125,14 +135,11 @@ class ship_placement(QWidget):
     resizeSygnal = pyqtSignal(QRect)
 
     def __init__(self):
-        super(ship_placement, self).__init__()
+        super().__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.fields = {"username": field.Field(), "enemy": field.Field()}
         self.UI()
-
-    def transit(self):
-        super(ship_placement, self).__init__()
 
     def UI(self):
         self.labels = [self.ui.label_111, self.ui.label_112, self.ui.label_113, self.ui.label_114]
@@ -224,8 +231,8 @@ class ship_placement(QWidget):
             if dist <= m:
                 m = dist
                 pos = c.pos() + c.parent().pos() - dragged_ship.labels[dragged_ship.clickSection].pos()
-
-        if pos is not None and self.shipsIntersection(pos.x(), pos.y(), dragged_ship) is False:
+        update = dragged_ship.isTouch
+        if pos is not None and self.shipsIntersection(pos.x(), pos.y(), dragged_ship)[0] is False:
             # устанавлка позиции корабля
             dragged_ship.setGeometry(pos.x(), pos.y(), dragged_ship.width(), dragged_ship.height())
             dragged_ship.onField = 1
@@ -234,17 +241,35 @@ class ship_placement(QWidget):
         else:
             dragged_ship.onField = 0
             dragged_ship.restoreGeometry()
+        if update is True:
+            self.checkNoTouch()
         self.updateCounts()
 
     def shipsIntersection(self, x, y, sample):
         '''проверка на пересечения кораблей'''
+        cross, touch = False, False
         for ship in self.ships:
             for s in ship:
-                if s is sample:
+                if s is sample or s.onField == 0:
                     continue
-                if s.is_cross(x, y, sample.width(), sample.height()) is True:
-                    return True
-        return False
+                c, t = s.is_cross(x, y, sample.width(), sample.height())
+                if t is True:
+                    touch = t
+                    s.isTouch = True
+                    lbls = s.findChildren(QLabel)
+                    for lb in lbls:
+                        lb.setStyleSheet('color: #ff0000;')
+                    sample.isTouch = True
+                    lbls = sample.findChildren(QLabel)
+                    for lb in lbls:
+                        lb.setStyleSheet('color: #ff0000;')
+                if c is True:
+                    cross = c
+        if sample.isTouch is False:
+            lbls = sample.findChildren(QLabel)
+            for lb in lbls:
+                lb.setStyleSheet('color: #00ff00;')
+        return [cross, touch]
 
     def checkOutOfBounds(self, ship):
         '''Проверка выхода за границы поля'''
@@ -255,13 +280,13 @@ class ship_placement(QWidget):
             # первое слагаемое от 0 до 9, второе от 1 до 4
             shift = x + ship.length - 10
             if (shift > 0):  # проверка на выход за правую границу
-                if self.shipsIntersection(ship.pos().x() - shift * size, ship.pos().y(), ship) is True:
+                if self.shipsIntersection(ship.pos().x() - shift * size, ship.pos().y(), ship)[0] is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
                 ship.setGeometry(ship.pos().x() - shift * size, ship.pos().y(), ship.width(), ship.height())
             elif x < 0:  # проверка на выход за левую границу
-                if self.shipsIntersection(ship.pos().x() - x * size, ship.pos().y(), ship) is True:
+                if self.shipsIntersection(ship.pos().x() - x * size, ship.pos().y(), ship)[0] is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
@@ -269,17 +294,30 @@ class ship_placement(QWidget):
         else:
             shift = pos.y() // size + ship.length - 10
             if (shift > 0):  # проверка на выход за верхнюю границу
-                if self.shipsIntersection(ship.pos().x(), ship.pos().y() - shift * size, ship) is True:
+                if self.shipsIntersection(ship.pos().x(), ship.pos().y() - shift * size, ship)[0] is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
                 ship.setGeometry(ship.pos().x(), ship.pos().y() - shift * size, ship.width(), ship.height())
             elif y < 0:  # проверка на выход за верхнюю границу
-                if self.shipsIntersection(ship.pos().x(), ship.pos().y() - y * size, ship) is True:
+                if self.shipsIntersection(ship.pos().x(), ship.pos().y() - y * size, ship)[0] is True:
                     ship.onField = 0
                     ship.restoreGeometry()
                     return
                 ship.setGeometry(ship.pos().x(), ship.pos().y() - y * size, ship.width(), ship.height())
+
+    def checkNoTouch(self):
+        for ship in self.ships:
+            for s in ship:
+                if s.onField == 0:
+                    continue
+                ct = self.shipsIntersection(s.pos().x(), s.pos().y(), s)
+                if ct[0] is False and ct[1] is False:
+                    s.isTouch = False
+                    lbls = s.findChildren(QLabel)
+                    for lb in lbls:
+                        lb.setStyleSheet('color: #00ff00;')
+
 
     def updateCounts(self):
         j, k = 0, 0
@@ -306,11 +344,13 @@ class ship_placement(QWidget):
         y = (self.height() - fieldSize) // 2
         self.ui.field.setGeometry(x, y, fieldSize, fieldSize)
         self.checkCellsSize()
+        fieldSize -= self.ui.field.lineWidth() * 2
         # корабли
         x = self.width() * 6.5 // 10
         j = 0.0
         for ship in self.ships:
             for i in range(len(ship)):
+                self.ui.label.lineWidth()
                 ship[i].setGeometry(x, y + (j * fieldSize) // 10, ship[i].length * fieldSize // 10, fieldSize // 10)
                 ship[i].startGeometry = ship[i].geometry()
             j += 1.5
@@ -339,7 +379,7 @@ class ship_placement(QWidget):
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
         self.positioning()
-        return super(ship_placement, self).resizeEvent(event)
+        return super().resizeEvent(event)
     
     def closeWin(self):
         self.back.emit()
@@ -412,4 +452,5 @@ class ship_placement(QWidget):
                     self.fields['username'].IndicateCell((i - 1), (j - 1))
         self.fields['username'].prints()
         self.ui.start_button.setEnabled(True)
+        self.checkNoTouch()
         self.updateCounts()
