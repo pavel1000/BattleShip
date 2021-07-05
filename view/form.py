@@ -59,4 +59,3 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.newSoloGame.setText(_translate("Form", "Начать игру"))
         self.newNetGame.setText(_translate("Form", "Сетевая"))
-

@@ -343,9 +343,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -361,9 +358,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -381,9 +375,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -399,9 +390,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -419,9 +407,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -437,9 +422,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -457,9 +439,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -475,9 +454,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -495,9 +471,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -513,9 +486,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -533,9 +503,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -551,9 +518,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -571,9 +535,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -589,9 +550,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -609,9 +567,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -627,9 +582,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -647,9 +599,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -665,9 +614,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -685,9 +631,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -703,9 +646,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -723,9 +663,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -741,9 +678,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -761,9 +695,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -779,9 +710,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -799,9 +727,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -817,9 +742,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -837,9 +759,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -855,9 +774,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -875,9 +791,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -893,9 +806,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -913,9 +823,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -931,9 +838,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -951,9 +855,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -969,9 +870,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -989,9 +887,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1007,9 +902,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1027,9 +919,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1045,9 +934,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1065,9 +951,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1083,9 +966,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1103,9 +983,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1121,9 +998,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1141,9 +1015,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1159,9 +1030,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1179,9 +1047,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1197,9 +1062,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1217,9 +1079,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1235,9 +1094,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1255,9 +1111,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1273,9 +1126,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1293,9 +1143,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1311,9 +1158,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1331,9 +1175,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1349,9 +1190,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1369,9 +1207,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1387,9 +1222,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1407,9 +1239,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1425,9 +1254,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1445,9 +1271,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1463,9 +1286,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1483,9 +1303,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1501,9 +1318,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1521,9 +1335,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1539,9 +1350,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1559,9 +1367,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1577,9 +1382,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1597,9 +1399,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1615,9 +1414,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1635,9 +1431,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1653,9 +1446,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1673,9 +1463,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1691,9 +1478,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1711,9 +1495,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1729,9 +1510,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1749,9 +1527,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1767,9 +1542,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1787,9 +1559,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1805,9 +1574,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1825,9 +1591,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1843,9 +1606,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1863,9 +1623,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1881,9 +1638,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1901,9 +1655,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1919,9 +1670,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1939,9 +1687,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1957,9 +1702,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -1977,9 +1719,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -1995,9 +1734,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2015,9 +1751,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -2033,9 +1766,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2053,9 +1783,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -2071,9 +1798,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2091,9 +1815,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -2109,9 +1830,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2129,9 +1847,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -2147,9 +1862,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2167,9 +1879,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -2185,9 +1894,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -2205,9 +1911,6 @@
     <property name="text">
      <string/>
     </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
-    </property>
     <property name="scaledContents">
      <bool>true</bool>
     </property>
@@ -2223,9 +1926,6 @@
     </property>
     <property name="text">
      <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../resources.qrc">:/images/square.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
