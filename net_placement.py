@@ -1,23 +1,16 @@
 import random
 import socket
-import field
 
 from placement import ship_placement
-from view.ship_placement7 import Ui_Form
 
 
 class net_ship_placement(ship_placement):
-
     def __init__(self, typeGame, ip):
-        self.transit()
+        super().__init__()
         self.type = typeGame
         self.ip = ip
         self.connect = [""]
-        self.ui = Ui_Form()
-        self.ui.setupUi(self)
-        self.fields = {"username": field.Field(), "enemy": field.Field()}
         self.turn = [False for _ in range(2)]
-        self.UI()
 
     def initTurn(self, turn):
         if turn == 1:
@@ -121,6 +114,7 @@ class net_ship_placement(ship_placement):
             print('Корабли расставлены верно')
             self.net()
             self.nextWin.emit()
+            self.returnShips()
             self.close()
         else:
             print('Корабли расставлены НЕ верно')
