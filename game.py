@@ -23,7 +23,7 @@ class game_field(QWidget):
     resizeSygnal = pyqtSignal(QRect)
 
     def __init__(self, fields):
-        super(game_field, self).__init__()
+        super().__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.fields = fields
@@ -33,12 +33,6 @@ class game_field(QWidget):
         # print('Поле противника')
         # fields['enemy'].prints()
         self.UI()
-
-    def transit(self):
-        super(game_field, self).__init__()
-
-    def transit2(self,event):
-        super(game_field, self).mousePressEvent(event)
 
     def UI(self):
         self.cells = self.ui.field.findChildren(QLabel)
@@ -116,7 +110,7 @@ class game_field(QWidget):
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана'''
         self.positioning()
-        return super(game_field, self).resizeEvent(event)
+        return super().resizeEvent(event)
     
     def paintEvent(self, event):
         self.resizeSygnal.emit(self.geometry())
@@ -133,30 +127,32 @@ class game_field(QWidget):
             x = click.x()
             y = click.y()
             cell = self.findCellByIndex(self.cells, x, y)
-            if cell is not None:
-                size = self.cells[0].width()
-                pos = cell.pos()
-                x, y = pos.x()//size, pos.y()//size
-                if self.shots['username'].isHitted(y, x) is False:
-                    self.shots['username'].IndicateCell(y, x)
-                    hitted, shooted = self.fields['enemy'].GetStrickenShips(y, x, self.shots['username'])
-                    if hitted is True:
-                        cell.setPixmap(QPixmap(':/images/square_purple.png'))
-                        # отмечаем ячейки, в которые можно не стрелять
-                        for s in shooted:
-                            self.cells[s[0]*10+s[1]].setPixmap(QPixmap(':/images/cross_gradient.png'))
-                        livingShips = self.fields['enemy'].GetAvailableShips(self.shots['username'])
-                        if livingShips == field.Ships(0, 0, 0, 0):
-                            QMessageBox.about(self, 'The end', "Победил username")
-                            self.turn['username'] = False
-                            self.close()
-                            self.closed.emit()
-                    else:
-                        cell.setPixmap(QPixmap(':/images/cross_gradient.png'))
-                        self.turn['username'] = False
-                        self.turn['enemy'] = True
-                        self.enemyTurn('enemy', 'username')
-        super(game_field, self).mousePressEvent(event)
+            if cell is None:
+                return
+            size = self.cells[0].width()
+            pos = cell.pos()
+            x, y = pos.x()//size, pos.y()//size
+            if self.shots['username'].isHitted(y, x) is True:
+                return
+            self.shots['username'].IndicateCell(y, x)
+            hitted, shooted = self.fields['enemy'].GetStrickenShips(y, x, self.shots['username'])
+            if hitted is True:
+                cell.setPixmap(QPixmap(':/images/square_purple.png'))
+                # отмечаем ячейки, в которые можно не стрелять
+                for s in shooted:
+                    self.cells[s[0]*10+s[1]].setPixmap(QPixmap(':/images/cross_gradient.png'))
+                livingShips = self.fields['enemy'].GetAvailableShips(self.shots['username'])
+                if livingShips == field.Ships(0, 0, 0, 0):
+                    QMessageBox.about(self, 'The end', "Победил username")
+                    self.turn['username'] = False
+                    self.close()
+                    self.closed.emit()
+            else:
+                cell.setPixmap(QPixmap(':/images/cross_gradient.png'))
+                self.turn['username'] = False
+                self.turn['enemy'] = True
+                self.enemyTurn('enemy', 'username')
+        super().mousePressEvent(event)
 
     def findCellByIndex(self, cells, x, y):
         m = min(cells[0].size().width()//2+1, cells[0].size().height()//2+1)
@@ -203,8 +199,8 @@ class game_field(QWidget):
                     print("Победил "+username)
                     QMessageBox.about(self, 'The end', "Победил "+username)
                     self.turn[username] = False
-                    self.close()
                     self.closed.emit()
+                    self.close()
             else:
                 cell.setPixmap(QPixmap(':/images/cross_gradient.png'))
                 self.turn[enemy] = True
