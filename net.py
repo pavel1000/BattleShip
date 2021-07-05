@@ -1,18 +1,15 @@
 from view.net import Ui_Form
 
-import random
-
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import pyqtSignal, QRect
 
 
 class net_window(QWidget):
-    
     nextNetWin = pyqtSignal()
     nextNetServerWin = pyqtSignal()
     back = pyqtSignal()
-    
+    resizeSygnal = pyqtSignal(QRect)
+
     def __init__(self):
         super(net_window, self).__init__()
         self.ui = Ui_Form()
@@ -27,7 +24,7 @@ class net_window(QWidget):
         self.nextNetWin.emit()
         print("Ожидайте подключения")
         self.close()
-    
+
     def nextNetServerWindow(self):
         self.ip[0] = self.ui.lineEdit.text()
         print("Ожидайте подключения")
@@ -40,13 +37,18 @@ class net_window(QWidget):
         self.close()
 
     def positioning(self):
-        widthBtn=self.ui.pushButton_2.width()//2
+        widthBtn = self.ui.pushButton_2.width()//2
         x = self.width()//4
         y = self.height()*3//5 - self.ui.pushButton_2.height()//2
         self.ui.pushButton_3.setGeometry(x-widthBtn, y, self.ui.pushButton_2.width(), self.ui.pushButton_2.height())
         self.ui.pushButton.setGeometry(2*x-widthBtn, y, self.ui.pushButton_2.width(), self.ui.pushButton_2.height())
         self.ui.pushButton_2.setGeometry(3*x-widthBtn , y, self.ui.pushButton_2.width(), self.ui.pushButton_2.height())
+
     def resizeEvent(self, event):
         '''Подгоняет размер элементов под размер экрана.'''
         self.positioning()
-        #return super(startWindow, self).resizeEvent(event)
+        return super().resizeEvent(event)
+
+    def paintEvent(self, event):
+        self.resizeSygnal.emit(self.geometry())
+        return super().paintEvent(event)

@@ -9,14 +9,14 @@ from net_placement import net_ship_placement
 import os
 import sys
 import resources_rc
-from PyQt5.QtWidgets import QApplication, QPushButton, QWidget, QComboBox
+from PyQt5.QtWidgets import QApplication, QWidget, QComboBox
 from PyQt5.QtCore import QRect, pyqtSignal, QFile, QTextStream
 
 
 class MainApp(QApplication):
     def __init__(self, argv):
         super().__init__(argv)
-
+        # Одиночная часть
         self.start = startWindow()
         self.start.theme_combo.activated[str].connect(self.setTheme)
         self.setTheme('Dark')
@@ -34,7 +34,7 @@ class MainApp(QApplication):
         self.start.resizeSygnal.connect(self.resizeWindows)
         self.placement.resizeSygnal.connect(self.resizeWindows)
         self.game.resizeSygnal.connect(self.resizeWindows)
-
+        # Сетевая часть
         self.net = net_window()
         self.net_placement = net_ship_placement(self.start.type, self.net.ip)
         self.net_game = net_game_field(self.net_placement.fields, self.net_placement.connect, self.net_placement.turn)
@@ -47,6 +47,10 @@ class MainApp(QApplication):
         self.net_placement.back.connect(self.net.show)
         self.net_placement.nextWin.connect(self.net_game.show)
         self.net_game.closed.connect(self.start.show)
+
+        self.net.resizeSygnal.connect(self.resizeWindows)
+        self.net_placement.resizeSygnal.connect(self.resizeWindows)
+        self.net_game.resizeSygnal.connect(self.resizeWindows)
     
     def resizeWindows(self, g):
         self.start.setGeometry(g)
